@@ -9,7 +9,7 @@ import Recovery from './Router/Auth/Recovery/Recovery';
 import Register from './Router/Auth/Register/Register';
 // MAIN APP
 import Lobby from './Router/Lobby/Lobby';
-
+import Kanban from './Router/Apps/Kanban/Kanban';
 
 import { Navigate, Route, Routes } from 'react-router-dom';
 
@@ -24,6 +24,7 @@ function App() {
         <Route path='/Recovery/*' element={<Recovery></Recovery>}></Route>
         <Route path='/Register/*' element={<Register></Register>}></Route>
         <Route path='/Lobby/*' element={<Lobby></Lobby>}></Route>
+        <Route path='/Kanban/*' element={<Kanban></Kanban>}></Route>
       </Routes>
     </React.Fragment>
   );
