@@ -7,6 +7,7 @@ import Login from './Router/Auth/Login/Login';
 import Password from './Router/Auth/Password/Password';
 import Recovery from './Router/Auth/Recovery/Recovery';
 import Register from './Router/Auth/Register/Register';
+import Change from './Router/Auth/ChangePassword/Change';
 // MAIN APP
 import Lobby from './Router/Lobby/Lobby';
 import Kanban from './Router/Apps/Kanban/Kanban';
@@ -25,6 +26,7 @@ function App() {
         <Route path='/Register/*' element={<Register></Register>}></Route>
         <Route path='/Lobby/*' element={<Lobby></Lobby>}></Route>
         <Route path='/Kanban/*' element={<Kanban></Kanban>}></Route>
+        <Route path='/Change/*' element={<Change></Change>}></Route>
       </Routes>
     </React.Fragment>
   );

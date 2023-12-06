@@ -1,0 +1,177 @@
+.Body_2{
+    width: 100vw;
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.logoContainer{
+    width: 100%;
+    margin-bottom: 80px;
+    min-height: 100px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.ItemContainer{
+    width: 100%;
+    min-height: 340px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.contentContainer{
+    width: 65%;
+    height: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0px;
+}
+.blue{
+    color: #0463a2;
+}
+.ImageContainer{
+    width: 35%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.TitleContainer{
+    font-size: 24px;
+    color: white;
+}
+
+.infoContainer{
+    color: gray;
+}
+
+.itemsContent{
+    width: 100%;
+    height: 70px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+.item{
+    width: 20px;
+    height: 20px;
+    background-color: rgb(70, 70, 70);
+    border-radius: 20px;
+    margin: 5px;
+}
+.ModulesTitle{
+    width: 100%;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.textModules{
+    color: rgb(139, 139, 139);
+    font-size: 35px;
+    transition: 1s;
+}
+
+.textModules:hover{
+    color: rgb(221, 221, 221);
+}
+
+
+/* MODULES */
+.Container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.moduleContainer{
+    width: 100%;
+    min-height: 300px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    max-width: 1500px;
+}
+
+.modal.show .modal-dialog{
+    max-width: 600px !important;
+}
+
+.module{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 220px; 
+    max-height:220px;
+    min-height: 220px;
+    max-width: 350px;
+    width: 350px ;
+    min-width: 100px;
+    border-radius: 46px;
+    margin-bottom:1rem;
+    margin-right:1rem;
+    margin-left: 0.5rem;
+    align-items: center; 
+    justify-content: center;
+    letter-spacing: 0px;
+    transition: 1s;
+    color: #FFFFFF;
+    background-color: rgba(116, 116, 116, 0.2);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+.module:hover{
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 1);
+    transform: scale(1.1);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, #032c47 100%);
+    cursor:pointer;
+}
+
+.module_active{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 220px; 
+    max-height:220px;
+    min-height: 220px;
+    max-width: 350px;
+    width: 350px ;
+    min-width: 100px;
+    border-radius: 46px;
+    margin-bottom:1rem;
+    margin-right:1rem;
+    margin-left: 0.5rem;
+    align-items: center; 
+    justify-content: center;
+    letter-spacing: 0px;
+    transition: 1s;
+    color: #FFFFFF;
+    background-color: rgba(255, 255, 255, 0.2);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+.module_active:hover{
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 1);
+    transform: scale(1.1);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, #bababa 100%);
+    cursor:pointer;
+}
+.textModule{
+    position: relative;
+    top: 10px;
+}
+
+
