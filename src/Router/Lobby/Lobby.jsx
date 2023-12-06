@@ -8,7 +8,7 @@ import Security from '../../Components/Svg/Security/Security'
 import Airplane from '../../Components/Svg/Airplane/Airplane'
 import Mirror from '../../img/background.png'
 import Swal from 'sweetalert2'
-
+import Logo_team from '../../img/Logo_team.png'
 
 export default function Lobby() {
   /* NAVIGATE */
@@ -65,9 +65,8 @@ export default function Lobby() {
           </div>
           <div className='Container'>
               <div className='moduleContainer'>
-                      <div className='module' onClick={disabledModule}>
-                          <img style={{position:'absolute'}} src={Mirror}></img>
-                          <p className='textModule font_medium'>En desarrollo</p>
+                      <div className='module_active' onClick={disabledModule}>
+                          <img className='imgModule' width={450} height={450} src={Logo_team}></img>
                       </div>
                       <div className='module' onClick={disabledModule}>
                           <img style={{position:'absolute'}} src={Mirror}></img>
