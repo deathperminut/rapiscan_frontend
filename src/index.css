@@ -2481,7 +2481,7 @@ input[type=number]::-webkit-outer-spin-button {
     position: absolute;
     top: 10px !important;
     z-index: 1000;
-    background-color: white !important;
+    background-color: #4e5466  !important;
     background-clip: padding-box;
     border: 0px solid var(--color-black-rgba-) !important;
     border-radius: 1rem !important;
@@ -2497,7 +2497,7 @@ input[type=number]::-webkit-outer-spin-button {
     padding: 0.25rem 1rem;
     clear: both;
     font-weight: 400;
-    color: var(--color-secondary-black-);
+    color: white;
     text-align: inherit;
     text-decoration: none;
     white-space: nowrap;
@@ -2520,13 +2520,13 @@ input[type=number]::-webkit-outer-spin-button {
   }
   
   .dropdown-item {
-    color: var(--color-black-) !important;
-    background-color: var(--color-tertiary-white-) !important;
+    color: white !important;
+    background-color: #4e5466 !important;
   }
   
   .dropdown-item:hover {
     color: white !important;
-    background-color: var(--color-purple-) !important;
+    background-color: #3e455a !important;
   }
   
   .dropdown-item.active,

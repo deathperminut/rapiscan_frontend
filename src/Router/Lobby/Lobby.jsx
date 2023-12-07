@@ -65,7 +65,7 @@ export default function Lobby() {
           </div>
           <div className='Container'>
               <div className='moduleContainer'>
-                      <div className='module_active' onClick={disabledModule}>
+                      <div className='module_active' onClick={()=>navigate('/Kanban')}>
                           <img className='imgModule' width={450} height={450} src={Logo_team}></img>
                       </div>
                       <div className='module' onClick={disabledModule}>
