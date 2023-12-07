@@ -28,7 +28,7 @@ export default function Lobby() {
               <Icon></Icon>
           </div>
           <div className='ItemContainer'>
-                <div className='contentContainer'>
+                <div className='contentContainer_1'>
                   <p className='TitleContainer font_medium'>
                   Líder mundial en <span className='blue'>productos</span> y <span className='blue'>soluciones</span> de <span>control</span> de <span>seguridad.</span>
                   </p>
@@ -37,14 +37,14 @@ export default function Lobby() {
                   </p>
                 </div>
                 <div className='ImageContainer'>
-                  <Security width={340} height={340}></Security>
+                  <Security width={280} height={280}></Security>
                 </div>
           </div>
           <div className='ItemContainer'>
                 <div className='ImageContainer'>
-                  <Airplane width={340} height={340}></Airplane>
+                  <Airplane width={280} height={280}></Airplane>
                 </div>
-                <div className='contentContainer'>
+                <div className='contentContainer_2'>
                   <p className='TitleContainer font_medium'>
                   Estamos <span className='blue'>preparados</span> para las <span className='blue'>necesidades</span> actuales de control de seguridad de la <span className='blue'>aviación</span>
                   </p>

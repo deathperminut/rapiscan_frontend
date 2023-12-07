@@ -9,7 +9,7 @@ function Icon(props) {
       x="0"
       y="0"
       enableBackground="new 0 0 646.6 312.5"
-      viewBox="0 0 2246.6 312.5"
+      viewBox="0 0 2546.6 312.5"
     >
       <g id="Layer_7">
         <path
