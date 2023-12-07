@@ -6,12 +6,11 @@ import reportWebVitals from './reportWebVitals';
 // Importar estilos CSS
 import '../node_modules/font-awesome/css/font-awesome.min.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-
+import 'swiper/swiper-bundle.css';
 // Importar bootstrap.bundle (incluye Popper.js y jQuery)
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { HashRouter } from 'react-router-dom';
 import { ProviderContext } from './Context';
-
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
