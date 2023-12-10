@@ -8,6 +8,11 @@ import Swiper from 'swiper';
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { TiPlusOutline } from "react-icons/ti";
+import Board from '../../../Components/Board_popUp/Board';
+import BoardEdit from '../../../Components/Board_edit/BoardEdit';
+import Task from '../../../Components/Task_popUp/Task';
+import Offcanvas_task from '../../../Components/Offcanvas/Offcanvas';
+
 
 export default function KanBan() {
 
@@ -29,12 +34,28 @@ export default function KanBan() {
   /* navigate */
   const navigate=useNavigate();
 
-  /* pop up */
-  
-  
-  const seeDropDown=()=>{
-    document.getElementById('nav-dropdown-dark-example').click();
-  }
+  /* pop up New Board */
+  const [show, setShow] = React.useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
+
+  /* pop up Edit Board */
+  const [show_2, setShow_2] = React.useState(false);
+  const handleClose_2 = () => setShow_2(false);
+  const handleShow_2 = () => setShow_2(true);
+
+  /* pop up New Task */
+  const [show_3, setShow_3] = React.useState(false);
+
+  const handleClose_3 = () => setShow_3(false);
+  const handleShow_3 = () => setShow_3(true);
+
+  /* off Canvas EditTask */
+
+  const [show_4, setShow_4] = React.useState(false);
+  const handleClose_4 = () => setShow_4(false);
+  const handleShow_4 = () => setShow_4(true);
+
 
   const  Lobby=()=>{
     navigate('/Lobby')
@@ -42,6 +63,26 @@ export default function KanBan() {
 
   const  LogOut=()=>{
     navigate('/Login')
+  }
+
+  const seeDropDown=()=>{
+    document.getElementById('nav-dropdown-dark-example').click();
+  }
+
+  const appendBoardPopUp=()=>{
+    handleShow()
+  }
+
+  const editBoardPopUp=()=>{
+    handleShow_2()
+  }
+
+  const newTaskPopUp=()=>{
+    handleShow_3()
+  }
+
+  const EditTaskPopUp=()=>{
+    handleShow_4()
   }
 
 
@@ -72,7 +113,7 @@ export default function KanBan() {
                       <p className='titleKanban font_medium'>Organiza tu flujo de trabajo de forma <span className='blue'>visual</span> y <span className='blue'>eficiente</span> con nuestro tablero <span className='blue'>Kanban</span></p>
               </div>
               <div className='KanbaButtonContainer'>
-                      <div className='ButtonElement_kanba'>
+                      <div onClick={appendBoardPopUp} className='ButtonElement_kanba'>
                               <span className='ButtonText'>Agregar tablero</span>
                       </div>
               </div>
@@ -82,10 +123,10 @@ export default function KanBan() {
                                 <div className='nameTableContainer'>
                                   <span className='white nameTable font_medium'>Pendientes</span>
                                   <div className='iconsContainer'>
-                                    <div className='icon'>
+                                    <div onClick={newTaskPopUp} className='icon'>
                                         <TiPlusOutline width={30} height={30} color='white'/>
                                     </div>
-                                    <div className='icon'>
+                                    <div onClick={editBoardPopUp} className='icon'>
                                         <FaEdit width={30} height={30} color='white'/>
                                     </div>
                                     <div className='icon'>
@@ -97,28 +138,28 @@ export default function KanBan() {
                                   <p className='content font_Light'>Tablero de descripción para tareas que aún no se han realizado</p>
                                 </div>
                                 <div className='itemsContainer'>
-                                        <div className='Card border-red'>
+                                        <div onDoubleClick={EditTaskPopUp} className='Card border-red'>
                                                   <p className='ClienteContainer font_medium white'>Avianca - 412D23</p>
                                                   <p className='descripcionContainer font_Light gray'>Compra de productos electrónicos en línea: Este pago corresponde a la adquisición de un televisor inteligente de 55 pulgadas, un sistema de altavoces de alta fidelidad y unos auriculares inalámbricos.</p>
                                                   <div className='icon' style={{position:'relative',bottom:'10px'}}>
                                                       <MdDelete width={30} height={30} color='white'/>
                                                   </div>
                                         </div>
-                                        <div className='Card border-red'>
+                                        <div onDoubleClick={EditTaskPopUp} className='Card border-red'>
                                                   <p className='ClienteContainer font_medium white'>Avianca - 412D23</p>
                                                   <p className='descripcionContainer font_Light gray'>Compra de productos electrónicos en línea: Este pago corresponde a la adquisición de un televisor inteligente de 55 pulgadas, un sistema de altavoces de alta fidelidad y unos auriculares inalámbricos.</p>
                                                   <div className='icon' style={{position:'relative',bottom:'10px'}}>
                                                       <MdDelete width={30} height={30} color='white'/>
                                                   </div>
                                         </div>
-                                        <div className='Card border-red'>
+                                        <div onDoubleClick={EditTaskPopUp} className='Card border-red'>
                                                   <p className='ClienteContainer font_medium white'>Avianca - 412D23</p>
                                                   <p className='descripcionContainer font_Light gray'>Compra de productos electrónicos en línea: Este pago corresponde a la adquisición de un televisor inteligente de 55 pulgadas, un sistema de altavoces de alta fidelidad y unos auriculares inalámbricos.</p>
                                                   <div className='icon' style={{position:'relative',bottom:'10px'}}>
                                                       <MdDelete width={30} height={30} color='white'/>
                                                   </div>
                                         </div>
-                                        <div className='Card border-red'>
+                                        <div onDoubleClick={EditTaskPopUp} className='Card border-red'>
                                                   <p className='ClienteContainer font_medium white'>Avianca - 412D23</p>
                                                   <p className='descripcionContainer font_Light gray'>Compra de productos electrónicos en línea: Este pago corresponde a la adquisición de un televisor inteligente de 55 pulgadas, un sistema de altavoces de alta fidelidad y unos auriculares inalámbricos.</p>
                                                   <div className='icon' style={{position:'relative',bottom:'10px'}}>
@@ -131,10 +172,10 @@ export default function KanBan() {
                           <div className='nameTableContainer'>
                                   <span className='white nameTable font_medium'>Pendientes</span>
                                   <div className='iconsContainer'>
-                                    <div className='icon'>
+                                    <div onClick={newTaskPopUp} className='icon'>
                                         <TiPlusOutline width={30} height={30} color='white'/>
                                     </div>
-                                    <div className='icon'>
+                                    <div onClick={editBoardPopUp} className='icon'>
                                         <FaEdit width={30} height={30} color='white'/>
                                     </div>
                                     <div className='icon'>
@@ -146,14 +187,14 @@ export default function KanBan() {
                                   <p className='content font_Light'>Tablero de descripción para tareas que aún no se han realizado</p>
                                 </div>
                                 <div className='itemsContainer'>
-                                        <div className='Card border-red'>
+                                        <div onDoubleClick={EditTaskPopUp} className='Card border-red'>
                                                   <p className='ClienteContainer font_medium white'>Avianca - 412D23</p>
                                                   <p className='descripcionContainer font_Light gray'>Compra de productos electrónicos en línea: Este pago corresponde a la adquisición de un televisor inteligente de 55 pulgadas, un sistema de altavoces de alta fidelidad y unos auriculares inalámbricos.</p>
                                                   <div className='icon' style={{position:'relative',bottom:'10px'}}>
                                                       <MdDelete width={30} height={30} color='white'/>
                                                   </div>
                                         </div>
-                                        <div className='Card border-green'>
+                                        <div onDoubleClick={EditTaskPopUp} className='Card border-green'>
                                                   <p className='ClienteContainer font_medium white'>Avianca - 412D23</p>
                                                   <p className='descripcionContainer font_Light gray'>Compra de productos electrónicos en línea: Este pago corresponde a la adquisición de un televisor inteligente de 55 pulgadas, un sistema de altavoces de alta fidelidad y unos auriculares inalámbricos.</p>
                                                   <div className='icon' style={{position:'relative',bottom:'10px'}}>
@@ -167,10 +208,10 @@ export default function KanBan() {
                           <div className='nameTableContainer'>
                                   <span className='white nameTable font_medium'>Pendientes</span>
                                   <div className='iconsContainer'>
-                                    <div className='icon'>
+                                    <div onClick={newTaskPopUp} className='icon'>
                                         <TiPlusOutline width={30} height={30} color='white'/>
                                     </div>
-                                    <div className='icon'>
+                                    <div onClick={editBoardPopUp} className='icon'>
                                         <FaEdit width={30} height={30} color='white'/>
                                     </div>
                                     <div className='icon'>
@@ -182,7 +223,7 @@ export default function KanBan() {
                                   <p className='content font_Light'>Tablero de descripción para tareas que aún no se han realizado</p>
                                 </div>
                                 <div className='itemsContainer'>
-                                        <div className='Card border-green'>
+                                        <div onDoubleClick={EditTaskPopUp} className='Card border-green'>
                                                   <p className='ClienteContainer font_medium white'>Avianca - 412D23</p>
                                                   <p className='descripcionContainer font_Light gray'>Compra de productos electrónicos en línea: Este pago corresponde a la adquisición de un televisor inteligente de 55 pulgadas, un sistema de altavoces de alta fidelidad y unos auriculares inalámbricos.</p>
                                                   <div className='icon' style={{position:'relative',bottom:'10px'}}>
@@ -196,10 +237,10 @@ export default function KanBan() {
                           <div className='nameTableContainer'>
                                   <span className='white nameTable font_medium'>Pendientes</span>
                                   <div className='iconsContainer'>
-                                    <div className='icon'>
+                                    <div onClick={newTaskPopUp} className='icon'>
                                         <TiPlusOutline width={30} height={30} color='white'/>
                                     </div>
-                                    <div className='icon'>
+                                    <div onClick={editBoardPopUp} className='icon'>
                                         <FaEdit width={30} height={30} color='white'/>
                                     </div>
                                     <div className='icon'>
@@ -218,7 +259,11 @@ export default function KanBan() {
                         
               </div>
           </div>  
-    </div>  
+    </div> 
+    <Board handleClose={handleClose} handleShow={handleShow} show={show}></Board> 
+    <BoardEdit handleClose={handleClose_2} handleShow={handleShow_2} show={show_2}></BoardEdit>
+    <Task handleClose={handleClose_3} handleShow={handleShow_3} show={show_3}></Task>
+    <Offcanvas_task handleClose={handleClose_4} handleShow={handleShow_4} show={show_4}></Offcanvas_task>
     </>
     
   )

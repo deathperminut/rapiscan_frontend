@@ -1,0 +1,23 @@
+.modal-content{ 
+    background-color: #141424 !important;
+}
+
+.white{
+    color: white !important;
+}
+.titleModal{
+    color: #0463a2;
+}
+.btn-close{
+    color: white !important;
+    background-color: white !important;
+}
+.bodyContainer_modal{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.inputStyle{
+    width: 100%;
+}

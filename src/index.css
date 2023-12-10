@@ -72,14 +72,14 @@
     --step-3: clamp(1.30rem, calc(0.77rem + 2.61vw), 3.91rem);
     --step-4: clamp(1.56rem, calc(0.89rem + 3.33vw), 4.88rem);
     --step-5: clamp(1.87rem, calc(1.02rem + 4.24vw), 6.10rem);
-    --font-family-extrabold-: 'Monserat-extrabold';
-    --font-family-semibold-: 'Monserat-semibold';
-    --font-family-medium-: 'Monserat-medium';
-    --font-family-bold-: 'Monserat-bold';
-    --font-family-black-: 'Monserat-black';
-    --font-family-regular-: 'Monserat-regular';
-    --font-family-light-: 'Monserat-light';
-    --font-family-thin-: 'Montserrat-thin';
+    --font-family-extrabold-: 'Light', sans-serif ;
+    --font-family-semibold-: 'Light', sans-serif;
+    --font-family-medium-: 'Light', sans-serif;
+    --font-family-bold-: 'Light', sans-serif;
+    --font-family-black-: 'Light', sans-serif;
+    --font-family-regular-: 'Light', sans-serif;
+    --font-family-light-: 'Light', sans-serif;
+    --font-family-thin-:'Light', sans-serif;
     --box-shadow-1-: #142E6E1A 0 4px 12px -1px, #142E6E1A 0 2px 4px -1px;
     --box-shadow-2-: rgba(0, 0, 0, 0.05) 0 1px 6px 0;
     --box-shadow-3-: 0 1px 8px #142E6E1A;
@@ -348,7 +348,6 @@
   optgroup,
   select,
   textarea {
-    font-family: montserrat,sans-serif; /* 1 */
     font-size: 100%; /* 1 */
     line-height: 1.15; /* 1 */
     margin: 0; /* 2 */
@@ -1019,7 +1018,7 @@
   [class^="icon-"],
 [class*=" icon-"] {
   /* use !important to prevent issues with browser extensions that change fonts */
-  font-family:  'Bold', sans-serif;
+  font-family: 'Light', sans-serif;
   speak: never;
   font-style: normal;
   font-weight: normal;
@@ -2215,23 +2214,23 @@ label:focus,
 }
 
 ::-webkit-input-placeholder {
-  font-family: var(--font-family-regular-) !important;
+  font-family: 'Light', sans-serif !important;
 }
 
 :-moz-placeholder {
-  font-family: var(--font-family-regular-) !important;
+  font-family: 'Light', sans-serif  !important;
 }
 
 ::-moz-placeholder {
-  font-family: var(--font-family-regular-) !important;
+  font-family: 'Light', sans-serif  !important;
 }
 
 :-ms-input-placeholder {
-  font-family: var(--font-family-regular-) !important;
+  font-family: 'Light', sans-serif  !important;
 }
 
 input-placeholder {
-  font-family: var(--font-family-regular-) !important;
+  font-family: 'Light', sans-serif  !important;
 }
 
 input[type="email"],
@@ -2246,12 +2245,12 @@ textarea:focus {
 }
 
 input[type="time"]::-webkit-calendar-picker-indicator {
-  font-family: var(--font-family-regular-) !important;
+  font-family: 'Light', sans-serif  !important;
   filter: invert(24%) sepia(1%) saturate(1831%) hue-rotate(327deg) brightness(99%) contrast(91%);
 }
 
 input[type="date"]::-webkit-calendar-picker-indicator {
-  font-family: var(--font-family-regular-) !important;
+  font-family: 'Light', sans-serif  !important;
   filter: invert(24%) sepia(1%) saturate(1831%) hue-rotate(327deg) brightness(99%) contrast(91%) !important;
 }
 
@@ -2344,7 +2343,7 @@ input[type=number]::-webkit-outer-spin-button {
     width: 32px !important;
     height: 32px !important;
     padding: 0 !important;
-    color: var(--color-black-) !important;
+    color: gray !important;
     background: transparent url(data:image/svg+xml;base64,PCEtLSBHZW5lcmF0ZWQgYnkgSWNvTW9vbi5pbyAtLT4KPHN2ZyB2ZXJzaW9uPSIxLjEiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMjQiIGhlaWdodD0iMTAyNCIgdmlld0JveD0iMCAwIDEwMjQgMTAyNCI+Cjx0aXRsZT48L3RpdGxlPgo8ZyBpZD0iaWNvbW9vbi1pZ25vcmUiPgo8L2c+CjxwYXRoIGQ9Ik00OC45OCAxMDI0Yy0yMC45OC04LjIyLTM3Ljg2LTIxLTQ1LjEtNDMuNDQtNy42Mi0yMy41OC00LTQ1LjQgMTEuNjgtNjQuODIgNC40MTItNS4yODEgOC44NS0xMC4wNDkgMTMuNTI4LTE0LjU3bDAuMDUyLTAuMDUwcTE4OS4xOC0xODkuNDIgMzc4LjQ2LTM3OC44YzkuNjItOS42MiA5LjYyLTkuNjQgMC0xOS4ycS0xOTIuMzQtMTkyLjU0LTM4NC43Ni0zODUuMTJjLTI2Ljg0LTI2Ljg0LTMwLjMtNjMuMjItOS4wNDAtOTEuMyAxMi4zMDktMTYuMjgzIDMxLjYzOS0yNi42OTUgNTMuNDAyLTI2LjY5NSAxNi4xNDMgMCAzMC45NDggNS43MyA0Mi40OTEgMTUuMjY2bC0wLjExMy0wLjA5MWM1LjE0IDQuMjIgMTAgOC44NiAxNC42NCAxMy41OHExODguOTQgMTg4Ljk4IDM3Ny44IDM3OGMxMC41IDEwLjUgMTAuNTIgMTAuNSAyMC44MiAwLjJsMzgwLTM4MC4xOGM2LjYtNi42MiAxMy4yNi0xMy4xNiAyMS40NC0xNy44IDkuNTkyLTUuNjAxIDIxLjExNy04LjkwOCAzMy40MTQtOC45MDggMjguNzQ0IDAgNTMuMjY3IDE4LjA2OCA2Mi44MzMgNDMuNDY2bDAuMTUzIDAuNDYyYzEuMDgwIDIuOCAyLjIyIDUuNTYgMy4zMiA4LjM0djMwYy00LjYyIDE1LjY2LTE0IDI4LjEyLTI1LjU4IDM5LjY2cS0xOTAuNDIgMTkwLjE0LTM4MC41NCAzODAuNjRjLTEwIDEwLTEwIDEwLTAuMiAxOS44OHExODkuODggMTkwIDM3OS43OCAzODBjMTIgMTIgMjEuODggMjUuMDIwIDI2LjU0IDQxLjU0djMwcS0xMS41MiAzNi45NC00OCA1MGgtMzZjLTE0LjY0LTQuNzYtMjYtMTQtMzYuODYtMjQuNzhxLTE5MC44LTE5MS4zNC0zODEuNzYtMzgyLjU2Yy03LjE4LTcuMjItMTAuNzQtNy4xNC0xNy44OCAwcS0xOTAuOTIgMTkxLjg0LTM4Mi40IDM4My4yOGMtMTAuNTQgMTAuNTYtMjEuODQgMTkuNDQtMzYuMTQgMjR6Ij48L3BhdGg+Cjwvc3ZnPgo=) 50% 55% no-repeat !important;
     background-size: 0.70rem !important;
     background-position: center;
@@ -2458,7 +2457,6 @@ input[type=number]::-webkit-outer-spin-button {
   
   .table-responsive .table thead tr th {
     white-space: pre;
-    text-transform: uppercase;
   }
   
   td.txt-datos-celdas {
@@ -2531,7 +2529,7 @@ input[type=number]::-webkit-outer-spin-button {
   
   .dropdown-item.active,
   .dropdown-item:active {
-    color: var(--color-quaternary-gray-);
+    color: gray;
     background-color: var(--color-tertiary-white-);
   }
   
@@ -2839,7 +2837,7 @@ input[type=number]::-webkit-outer-spin-button {
   -moz-border-radius: 1.313rem !important;
   -khtml-border-radius: 1.313rem !important;
   background: var(--color-tertiary-white-);
-  font-family: inherit;
+  font-family: 'Light', sans-serif;
   font-size: 0.87rem !important;
 }
 
@@ -2856,7 +2854,7 @@ input[type=number]::-webkit-outer-spin-button {
   -webkit-border-radius: 6rem;
   -moz-border-radius: 6rem;
   -khtml-border-radius: 6rem;
-  font-family: inherit;
+  font-family: 'Light', sans-serif;
   line-height: 5em;
   cursor: default;
   -webkit-user-select: none;
@@ -2872,7 +2870,7 @@ input[type=number]::-webkit-outer-spin-button {
   padding: 0;
   color: gray !important;
   font-weight: 700 !important;
-  font-family: var(--font-family-regular-) !important;
+  font-family: 'Light', sans-serif  !important;
   font-size: 15px !important;
   text-align: center;
   text-transform: none;
@@ -2888,7 +2886,7 @@ input[type=number]::-webkit-outer-spin-button {
   overflow: auto;
   color: inherit;
   font-size: 14px !important;
-  font-family: var(--font-family-regular-) !important;
+  font-family: 'Light', sans-serif  !important;
   font-weight: 400;
   line-height: normal;
   text-align: center;
@@ -2900,7 +2898,7 @@ input[type=number]::-webkit-outer-spin-button {
   color: var(--color-black-) !important;
   font-size: 14px;
   font-weight: 700 !important;
-  font-family: 'Monrope-Light' !important;
+  font-family: 'Light', sans-serif  !important;
 }
 
 .swal2-actions {
@@ -2915,7 +2913,7 @@ input[type=number]::-webkit-outer-spin-button {
   font-size: 13px !important;
   line-height: 14px;
   font-weight: 700 !important;
-  font-family: var(--font-family-regular-) !important;
+  font-family: 'Light', sans-serif  !important;
   background-color: var(--color-black-) !important;
   border-color: var(--color-black-) !important;
   border: 2px solid var(--color-black-) !important;
@@ -2927,7 +2925,7 @@ input[type=number]::-webkit-outer-spin-button {
   font-size: 13px !important;
   line-height: 14px;
   font-weight: 700 !important;
-  font-family: var(--font-family-regular-) !important;
+  font-family: 'Light', sans-serif  !important;
   background-color: var(--color-black-) !important;
   border-color: var(--color-black-) !important;
   border: 2px solid var(--color-black-) !important;
@@ -2939,7 +2937,7 @@ input[type=number]::-webkit-outer-spin-button {
   font-size: 13px !important;
   line-height: 14px;
   font-weight: 700 !important;
-  font-family: var(--font-family-regular-) !important;
+  font-family: 'Light', sans-serif  !important;
   color: var(--color-black-) !important;
   border-color: var(--color-tertiary-gray-rgba-) !important;
   border: 2px solid rgba(233, 233, 240, 0.5) !important;
@@ -2951,7 +2949,7 @@ input[type=number]::-webkit-outer-spin-button {
   font-size: 13px !important;
   line-height: 14px;
   font-weight: 700 !important;
-  font-family: var(--font-family-regular-) !important;
+  font-family: 'Light', sans-serif  !important;
   background-color: var(--color-tertiary-gray-rgba-) !important;
   color: var(--color-tertiary-white-) !important;
   border-color: 2px solid var(--color-tertiary-gray-rgba-) !important;
@@ -2963,7 +2961,7 @@ input[type=number]::-webkit-outer-spin-button {
   font-size: 13px !important;
   line-height: 14px;
   font-weight: 500 !important;
-  font-family: var(--font-family-regular-) !important;
+  font-family: 'Light', sans-serif  !important;
   background-color: var(--color-secondary-purple-) !important;
   border-color: transparent !important;
   border: 0px solid transparent !important;
@@ -2980,7 +2978,7 @@ input[type=number]::-webkit-outer-spin-button {
   font-size: 13px !important;
   line-height: 14px;
   font-weight: 500 !important;
-  font-family: var(--font-family-regular-) !important;
+  font-family: 'Light', sans-serif  !important;
   background-color: #2275d3 !important;
   border-color: transparent !important;
   border: 0px solid transparent !important;
