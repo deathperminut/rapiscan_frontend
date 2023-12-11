@@ -138,32 +138,53 @@ export default function KanBan() {
                                   <p className='content font_Light'>Tablero de descripción para tareas que aún no se han realizado</p>
                                 </div>
                                 <div className='itemsContainer'>
-                                        <div onDoubleClick={EditTaskPopUp} className='Card border-red'>
+                                        <div  className='Card border-red'>
                                                   <p className='ClienteContainer font_medium white'>Avianca - 412D23</p>
                                                   <p className='descripcionContainer font_Light gray'>Compra de productos electrónicos en línea: Este pago corresponde a la adquisición de un televisor inteligente de 55 pulgadas, un sistema de altavoces de alta fidelidad y unos auriculares inalámbricos.</p>
-                                                  <div className='icon' style={{position:'relative',bottom:'10px'}}>
-                                                      <MdDelete width={30} height={30} color='white'/>
+                                                  <div className='iconContainer_task'>
+                                                        <div className='icon' style={{position:'relative',bottom:'10px'}}>
+                                                            <MdDelete width={30} height={30} color='white'/>
+                                                        </div>
+                                                        <div onClick={EditTaskPopUp} className='icon' style={{position:'relative',bottom:'10px'}}>
+                                                            <FaEdit width={30} height={30} color='white'/>
+                                                        </div>
+                                                  </div>
+                                                  
+                                        </div>
+                                        <div  className='Card border-red'>
+                                                  <p className='ClienteContainer font_medium white'>Avianca - 412D23</p>
+                                                  <p className='descripcionContainer font_Light gray'>Compra de productos electrónicos en línea: Este pago corresponde a la adquisición de un televisor inteligente de 55 pulgadas, un sistema de altavoces de alta fidelidad y unos auriculares inalámbricos.</p>
+                                                  <div className='iconContainer_task'>
+                                                        <div className='icon' style={{position:'relative',bottom:'10px'}}>
+                                                            <MdDelete width={30} height={30} color='white'/>
+                                                        </div>
+                                                        <div onClick={EditTaskPopUp} className='icon' style={{position:'relative',bottom:'10px'}}>
+                                                            <FaEdit width={30} height={30} color='white'/>
+                                                        </div>
                                                   </div>
                                         </div>
-                                        <div onDoubleClick={EditTaskPopUp} className='Card border-red'>
+                                        <div  className='Card border-red'>
                                                   <p className='ClienteContainer font_medium white'>Avianca - 412D23</p>
                                                   <p className='descripcionContainer font_Light gray'>Compra de productos electrónicos en línea: Este pago corresponde a la adquisición de un televisor inteligente de 55 pulgadas, un sistema de altavoces de alta fidelidad y unos auriculares inalámbricos.</p>
-                                                  <div className='icon' style={{position:'relative',bottom:'10px'}}>
-                                                      <MdDelete width={30} height={30} color='white'/>
+                                                  <div className='iconContainer_task'>
+                                                        <div className='icon' style={{position:'relative',bottom:'10px'}}>
+                                                            <MdDelete width={30} height={30} color='white'/>
+                                                        </div>
+                                                        <div onClick={EditTaskPopUp} className='icon' style={{position:'relative',bottom:'10px'}}>
+                                                            <FaEdit width={30} height={30} color='white'/>
+                                                        </div>
                                                   </div>
                                         </div>
-                                        <div onDoubleClick={EditTaskPopUp} className='Card border-red'>
+                                        <div  className='Card border-red'>
                                                   <p className='ClienteContainer font_medium white'>Avianca - 412D23</p>
                                                   <p className='descripcionContainer font_Light gray'>Compra de productos electrónicos en línea: Este pago corresponde a la adquisición de un televisor inteligente de 55 pulgadas, un sistema de altavoces de alta fidelidad y unos auriculares inalámbricos.</p>
-                                                  <div className='icon' style={{position:'relative',bottom:'10px'}}>
-                                                      <MdDelete width={30} height={30} color='white'/>
-                                                  </div>
-                                        </div>
-                                        <div onDoubleClick={EditTaskPopUp} className='Card border-red'>
-                                                  <p className='ClienteContainer font_medium white'>Avianca - 412D23</p>
-                                                  <p className='descripcionContainer font_Light gray'>Compra de productos electrónicos en línea: Este pago corresponde a la adquisición de un televisor inteligente de 55 pulgadas, un sistema de altavoces de alta fidelidad y unos auriculares inalámbricos.</p>
-                                                  <div className='icon' style={{position:'relative',bottom:'10px'}}>
-                                                      <MdDelete width={30} height={30} color='white'/>
+                                                  <div className='iconContainer_task'>
+                                                        <div className='icon' style={{position:'relative',bottom:'10px'}}>
+                                                            <MdDelete width={30} height={30} color='white'/>
+                                                        </div>
+                                                        <div onClick={EditTaskPopUp} className='icon' style={{position:'relative',bottom:'10px'}}>
+                                                            <FaEdit width={30} height={30} color='white'/>
+                                                        </div>
                                                   </div>
                                         </div>
                                 </div>
@@ -187,18 +208,28 @@ export default function KanBan() {
                                   <p className='content font_Light'>Tablero de descripción para tareas que aún no se han realizado</p>
                                 </div>
                                 <div className='itemsContainer'>
-                                        <div onDoubleClick={EditTaskPopUp} className='Card border-red'>
+                                        <div  className='Card border-red'>
                                                   <p className='ClienteContainer font_medium white'>Avianca - 412D23</p>
                                                   <p className='descripcionContainer font_Light gray'>Compra de productos electrónicos en línea: Este pago corresponde a la adquisición de un televisor inteligente de 55 pulgadas, un sistema de altavoces de alta fidelidad y unos auriculares inalámbricos.</p>
-                                                  <div className='icon' style={{position:'relative',bottom:'10px'}}>
-                                                      <MdDelete width={30} height={30} color='white'/>
+                                                  <div className='iconContainer_task'>
+                                                        <div className='icon' style={{position:'relative',bottom:'10px'}}>
+                                                            <MdDelete width={30} height={30} color='white'/>
+                                                        </div>
+                                                        <div onClick={EditTaskPopUp} className='icon' style={{position:'relative',bottom:'10px'}}>
+                                                            <FaEdit width={30} height={30} color='white'/>
+                                                        </div>
                                                   </div>
                                         </div>
-                                        <div onDoubleClick={EditTaskPopUp} className='Card border-green'>
+                                        <div  className='Card border-green'>
                                                   <p className='ClienteContainer font_medium white'>Avianca - 412D23</p>
                                                   <p className='descripcionContainer font_Light gray'>Compra de productos electrónicos en línea: Este pago corresponde a la adquisición de un televisor inteligente de 55 pulgadas, un sistema de altavoces de alta fidelidad y unos auriculares inalámbricos.</p>
-                                                  <div className='icon' style={{position:'relative',bottom:'10px'}}>
-                                                      <MdDelete width={30} height={30} color='white'/>
+                                                  <div className='iconContainer_task'>
+                                                        <div className='icon' style={{position:'relative',bottom:'10px'}}>
+                                                            <MdDelete width={30} height={30} color='white'/>
+                                                        </div>
+                                                        <div onClick={EditTaskPopUp} className='icon' style={{position:'relative',bottom:'10px'}}>
+                                                            <FaEdit width={30} height={30} color='white'/>
+                                                        </div>
                                                   </div>
                                         </div>
 
@@ -223,11 +254,16 @@ export default function KanBan() {
                                   <p className='content font_Light'>Tablero de descripción para tareas que aún no se han realizado</p>
                                 </div>
                                 <div className='itemsContainer'>
-                                        <div onDoubleClick={EditTaskPopUp} className='Card border-green'>
+                                        <div  className='Card border-green'>
                                                   <p className='ClienteContainer font_medium white'>Avianca - 412D23</p>
                                                   <p className='descripcionContainer font_Light gray'>Compra de productos electrónicos en línea: Este pago corresponde a la adquisición de un televisor inteligente de 55 pulgadas, un sistema de altavoces de alta fidelidad y unos auriculares inalámbricos.</p>
-                                                  <div className='icon' style={{position:'relative',bottom:'10px'}}>
-                                                      <MdDelete width={30} height={30} color='white'/>
+                                                  <div className='iconContainer_task'>
+                                                        <div className='icon' style={{position:'relative',bottom:'10px'}}>
+                                                            <MdDelete width={30} height={30} color='white'/>
+                                                        </div>
+                                                        <div onClick={EditTaskPopUp} className='icon' style={{position:'relative',bottom:'10px'}}>
+                                                            <FaEdit width={30} height={30} color='white'/>
+                                                        </div>
                                                   </div>
                                         </div>
 

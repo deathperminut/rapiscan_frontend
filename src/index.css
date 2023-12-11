@@ -2266,6 +2266,10 @@ input[type=number] {
   appearance: none;
 }
 
+textarea::placeholder {
+  color: white !important; /* Cambia este valor al color que desees */
+}
+
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
