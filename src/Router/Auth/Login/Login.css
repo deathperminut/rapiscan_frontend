@@ -210,11 +210,20 @@
   input.form-control:focus~.fa {
     color: var(--color-purple-) !important;
   }
+  label::after{
+    background-color: transparent !important;
+  }
   
   .form-floating>label {
     color: var(--color-purple-);
     left: 30px !important;
+    background-color: transparent !important;
     padding: 1.3rem 0.75rem !important;
+  }
+
+  .form-floating{
+
+    background-color: transparent !important;
   }
   
   .form-floating>.form-control-plaintext~label,
@@ -222,8 +231,8 @@
   .form-floating>.form-control:not(:placeholder-shown)~label,
   .form-floating>.form-select~label {
     font-size: 14px !important;
-    color: red !important;
-    
+    color: gray !important;
+    background-color: transparent !important;
     opacity: 1 !important;
     transform: scale(.85) translateY(-1.5rem) translateX(-2.3rem) !important;
   }

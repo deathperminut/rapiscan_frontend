@@ -2195,6 +2195,10 @@ ul li {
   cursor: pointer;
 }
 
+label{
+  background-color: transparent !important;
+  color: white !important;
+}
 textarea:hover,
 input:hover,
 textarea:active,
@@ -2209,6 +2213,7 @@ label:focus,
 .btn.active {
   outline: 0px !important;
   appearance: none;
+  background-color: transparent !important;
   -webkit-appearance: none;
   box-shadow: none !important;
 }
