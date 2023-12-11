@@ -103,7 +103,6 @@
   .form-control {
     height: 50px !important;
     font-size: 13px !important;
-    text-transform: uppercase;
     background-color: transparent !important;
     border-top: 0px solid transparent !important;
     border-left: 0px solid transparent !important;
@@ -206,6 +205,9 @@
     left: 0px;
     top: 10px;
   }
+  label{
+    color: gray !important;
+  }
   
   input.form-control:focus~.fa {
     color: var(--color-purple-) !important;
@@ -292,7 +294,6 @@
   #internal-form .form-control {
     height: 50px !important;
     font-size: 12px !important;
-    text-transform: uppercase !important;
     border-bottom: 1px solid var(--color-black-) !important;
     border-radius: 0rem !important;
     -webkit-border-radius: 0rem !important;
@@ -400,7 +401,6 @@
   #internal-form-background .form-control {
     height: 50px !important;
     font-size: 12px !important;
-    text-transform: uppercase !important;
     border-bottom: 1px solid var(--color-black-) !important;
     border-radius: 0rem !important;
     -webkit-border-radius: 0rem !important;
@@ -508,7 +508,6 @@
   #internal-form-modals .form-control {
     height: 50px !important;
     font-size: 12px !important;
-    text-transform: uppercase !important;
     border-bottom: 1px solid var(--color-black-) !important;
     border-radius: 0rem !important;
     -webkit-border-radius: 0rem !important;
@@ -645,7 +644,6 @@
     height: 25px !important;
     min-height: auto !important;
     font-size: 14px !important;
-    text-transform: uppercase;
     text-align: center !important;
     background-color: transparent !important;
     border-bottom: 1px solid var(--color-black-) !important;

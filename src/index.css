@@ -2272,7 +2272,7 @@ input[type=number] {
 }
 
 textarea::placeholder {
-  color: white !important; /* Cambia este valor al color que desees */
+  color: gray !important; /* Cambia este valor al color que desees */
 }
 
 input[type=number]::-webkit-inner-spin-button,

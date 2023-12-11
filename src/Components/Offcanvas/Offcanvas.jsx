@@ -124,7 +124,6 @@ const selectStyles = {
     overflow: "hidden",
     color: '#728998',
     fontSize: 12,
-    textTransform: "uppercase",
     }),
     menuList: () => ({
       paddingTop: 0,
@@ -153,7 +152,6 @@ const selectStyles = {
     option: (provided, state) => ({
     ...provided,
     fontSize: 11,
-    textTransform: "uppercase",
     backgroundColor: state.isSelected ? "#0463a2" : "rgba(255, 255, 255, 1)",
     padding: '0.5rem 0.8rem 0.5rem 0.8rem',
     borderRadius: '1rem',
@@ -188,7 +186,7 @@ const selectStyles = {
     top: state.hasValue || state.selectProps.inputValue ? -20 : "22%",
     left: state.hasValue || state.selectProps.inputValue ? -32 : "0%",
     transition: "top 0.1s, font-size 0.1s",
-    color: '#FFFFFF',
+    color: 'gray',
     fontSize: state.hasValue || state.selectProps.inputValue ? 13 : "14px",
     lineHeight: 1.25,
     overflow: 'hidden',
@@ -202,7 +200,6 @@ const selectStyles = {
     singleValue: (styles) => ({ 
     ...styles, 
     fontSize: 13,
-    textTransform: "uppercase",
     color: "#FFFFFF", 
     padding: '3px',
     margin: '0px',
