@@ -5,18 +5,32 @@ import { useNavigate } from 'react-router-dom'
 import Preloader from '../../../Components/Preloader/Loading'
 import Swal from 'sweetalert2'
 import { changePassword } from '../../../services/Services'
+import { AppContext } from '../../../Context'
 
 export default function Password() {
 
   /* NAVIGATE */
   const navigate=useNavigate();
 
+  /* appContext */
+
+  let {userData,token} = React.useContext(AppContext);
+
+  React.useEffect(()=>{
+
+    if(!userData){
+        navigate('/Login')
+    }
+
+  },[userData])
+
+
   /* use State */
 
   let [preloader,setPreloader] = React.useState(false);
   let [form,setForm] = React.useState({
-    'password_1':'',
-    'password_2':''
+    'old_password':'',
+    'new_password':''
   })
 
   /* form */
@@ -30,11 +44,11 @@ export default function Password() {
 
   const changePassword_=async()=>{
     console.log(form)
-    if(form.password_1 !== '' &&  form.password_2 !==''){
+    if(form.old_password !== '' &&  form.new_password !==''){
 
       setPreloader(true);
       let result =  undefined
-      result =  await changePassword(form).catch((error)=>{
+      result =  await changePassword(form,token).catch((error)=>{
         console.log(error);
         setPreloader(false);
         Swal.fire({
@@ -48,9 +62,13 @@ export default function Password() {
         Swal.fire({
           icon: 'success',
           title: 'Contraseña cambiada con éxito'
-        });
-        console.log(result.data);
-        navigate('/Login')
+        }).then((result)=>{
+          if(result.isConfirmed){
+            console.log(result.data);
+            navigate('/Lobby')
+          }
+        })
+        
       }
 
     }else{
@@ -76,20 +94,20 @@ export default function Password() {
               <p className='TitleLogin'>Digita tu antigua y nueva contraseña</p>
               <div className='inputContainer'>
                   <div className='form-floating inner-addon- left-addon-'>
-                          <input onChange={(event)=>readInput(event,'password_1')} type="password" className='form-control' id='user' placeholder="Contraseña" />
+                          <input onChange={(event)=>readInput(event,'old_password')} type="password" className='form-control' id='user' placeholder="Contraseña" />
                           <label className='fs-5- ff-monse-regular-'>Contraseña antigua</label>
                   </div>
               </div>
               <div className='inputContainer'>
                   <div className='form-floating inner-addon- left-addon-'>
-                          <input onChange={(event)=>readInput(event,'password_2')} type="password" className='form-control' id='user' placeholder="Contraseña" />
+                          <input onChange={(event)=>readInput(event,'new_password')} type="password" className='form-control' id='user' placeholder="Contraseña" />
                           <label className='fs-5- ff-monse-regular-'>Contraseña nueva</label>
                   </div>
               </div>
               <div onClick={changePassword_} className='ButtonElement'>
                       <span className='ButtonText'>Cambiar</span>
               </div>
-              <span onClick={()=>navigate('/Login')} className='textLogin'>Volver</span>
+              <span onClick={()=>navigate('/Lobby')} className='textLogin'>Volver</span>
           </form>
         </div>
     </div>

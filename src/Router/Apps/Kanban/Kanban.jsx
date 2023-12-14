@@ -12,27 +12,97 @@ import Board from '../../../Components/Board_popUp/Board';
 import BoardEdit from '../../../Components/Board_edit/BoardEdit';
 import Task from '../../../Components/Task_popUp/Task';
 import Offcanvas_task from '../../../Components/Offcanvas/Offcanvas';
+import { AppContext } from '../../../Context';
+import Preloader from '../../../Components/Preloader/Loading';
+import Swal from 'sweetalert2';
+import { deleteBoard, getBoardsData, getOrdersData } from '../../../services/Services';
 
-
-export default function KanBan() {
-
-  React.useEffect(() => {
-    const mySwiper = new Swiper('.swiper-container', {
-      // Configuración de Swiper
-      slidesPerView: 'auto', // Número de slides visibles
-      spaceBetween: 20, // Espacio entre slides
-      // Otras configuraciones aquí...
-    });
-
-    return () => {
-      // Limpiar Swiper al desmontar el componente
-      mySwiper.destroy(true, true);
-    };
-  }, []);
-
-
+export default function KanBan() { 
   /* navigate */
   const navigate=useNavigate();
+  
+  
+  /* use context */
+
+  let {board,setBoard,token,boards,setBoards,orders,setOrders,userData,setUserData,setToken} =  React.useContext(AppContext);
+
+  /* use States */
+
+  let [preloader,setPreloader] = React.useState(false);
+
+  React.useEffect(()=>{
+    //token
+
+    if(token !== null){
+
+      // nos traemos los datos
+      getBoards(true);
+      
+    }else{
+
+      navigate('/Login');
+      
+    }
+  },[token])
+
+
+  // data functions
+
+  const getBoards=async(flag)=>{
+
+    setPreloader(true);
+
+    let result  = undefined;
+
+    result =  await getBoardsData(token).catch((error)=>{
+      console.log(error);
+      setPreloader(false);
+      Swal.fire({
+        icon: 'info',
+        title: 'Hay problemas para cargar la información ordenes y tableros.'
+      });
+    })
+    
+    if(result){
+      // obtenemos información
+      console.log(result.data);
+      setBoards(result.data);
+      getOrders(flag);
+
+    }
+
+  }
+
+  const getOrders=async(flag)=>{
+
+    let result = undefined;
+
+    result = await getOrdersData(token).catch((error)=>{
+      console.log(error);
+      setPreloader(false);
+      Swal.fire({
+        icon: 'info',
+        title: 'Hay problemas para cargar la información ordenes y tableros.'
+      });
+    })
+
+    if(result){
+          setPreloader(false);
+          console.log(result.data);
+          setOrders(result.data);
+          if(flag){
+            Swal.fire({
+              icon: 'success',
+              title: 'Información cargada con éxito.'
+            });
+          }
+    }
+
+  }
+
+  // BOARDS FUNCTION
+
+  
 
   /* pop up New Board */
   const [show, setShow] = React.useState(false);
@@ -62,6 +132,8 @@ export default function KanBan() {
   }
 
   const  LogOut=()=>{
+    setUserData(null)
+    setToken(null)
     navigate('/Login')
   }
 
@@ -73,7 +145,9 @@ export default function KanBan() {
     handleShow()
   }
 
-  const editBoardPopUp=()=>{
+
+  const editBoardPopUp=(b)=>{
+    setBoard(b)
     handleShow_2()
   }
 
@@ -86,8 +160,37 @@ export default function KanBan() {
   }
 
 
+  const deleteTablet=async(obj)=>{
+    let result =  undefined;
+    setPreloader(true);
+    result =  await deleteBoard(obj,token).catch((error)=>{
+          console.log(error);
+          setPreloader(false);
+          Swal.fire({
+            icon: 'info',
+            title: 'Error al eliminar el tablero.'
+          });
+    })
+
+    if(result){
+      console.log(result);
+      setPreloader(false);
+      Swal.fire({
+        icon: 'success',
+        title: 'Tablero eliminado con éxito.'
+      });
+      getBoards(false)
+    }
+  }
+
+  
+
+  
+
+
   return (
     <>
+    {preloader===true ? <Preloader></Preloader> : <></>}
     <div className='Body_3'>
           <div className='Navbar'>
               <div className='iconContainer_2'>
@@ -95,7 +198,7 @@ export default function KanBan() {
               </div>
               <div onClick={seeDropDown} className='nameContainer dropdown-toggle d-flex flex-row justify-content-center align-items-center align-self-center'>
                   <span className='nameNavbar font_medium'>
-                  Juan Sebastian Mendez
+                  {userData?.username}
                   </span>
                   <NavDropdown
                     id="nav-dropdown-dark-example"
@@ -103,6 +206,7 @@ export default function KanBan() {
                     menuVariant="dark"
                   >
                     <NavDropdown.Item onClick={Lobby}>Lobby</NavDropdown.Item>
+                    <NavDropdown.Item onClick={()=>navigate('/Password')}>Cambiar contraseña</NavDropdown.Item>
                     <NavDropdown.Item onClick={LogOut}>Cerrar Sesión</NavDropdown.Item>
                     
                   </NavDropdown>
@@ -119,23 +223,25 @@ export default function KanBan() {
               </div>
               <div className='KanbaContainer '>
                         <div className='KanbaContainer_2 swiper-container'>
-                          <div className='Board swiper-wrapper'>
+                          {boards.map((obj,index)=>{
+                            return(
+                              <div key={index} className='Board swiper-wrapper'>
                                 <div className='nameTableContainer'>
-                                  <span className='white nameTable font_medium'>Pendientes</span>
+                                  <span className='white nameTable font_medium'>{obj?.title}</span>
                                   <div className='iconsContainer'>
                                     <div onClick={newTaskPopUp} className='icon'>
                                         <TiPlusOutline width={30} height={30} color='white'/>
                                     </div>
-                                    <div onClick={editBoardPopUp} className='icon'>
+                                    <div onClick={()=>editBoardPopUp(obj)} className='icon'>
                                         <FaEdit width={30} height={30} color='white'/>
                                     </div>
-                                    <div className='icon'>
+                                    <div onClick={()=>deleteTablet(obj)} className='icon'>
                                         <MdDelete width={30} height={30} color='white'/>
                                     </div>
                                   </div>
                                 </div>
                                 <div className='contentTableContainer'>
-                                  <p className='content font_Light'>Tablero de descripción para tareas que aún no se han realizado</p>
+                                  <p className='content font_Light'>{obj?.description}</p>
                                 </div>
                                 <div className='itemsContainer'>
                                         <div  className='Card border-red'>
@@ -188,116 +294,16 @@ export default function KanBan() {
                                                   </div>
                                         </div>
                                 </div>
-                          </div>
-                          <div className='Board swiper-wrapper'>
-                          <div className='nameTableContainer'>
-                                  <span className='white nameTable font_medium'>Pendientes</span>
-                                  <div className='iconsContainer'>
-                                    <div onClick={newTaskPopUp} className='icon'>
-                                        <TiPlusOutline width={30} height={30} color='white'/>
-                                    </div>
-                                    <div onClick={editBoardPopUp} className='icon'>
-                                        <FaEdit width={30} height={30} color='white'/>
-                                    </div>
-                                    <div className='icon'>
-                                        <MdDelete width={30} height={30} color='white'/>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className='contentTableContainer'>
-                                  <p className='content font_Light'>Tablero de descripción para tareas que aún no se han realizado</p>
-                                </div>
-                                <div className='itemsContainer'>
-                                        <div  className='Card border-red'>
-                                                  <p className='ClienteContainer font_medium white'>Avianca - 412D23</p>
-                                                  <p className='descripcionContainer font_Light gray'>Compra de productos electrónicos en línea: Este pago corresponde a la adquisición de un televisor inteligente de 55 pulgadas, un sistema de altavoces de alta fidelidad y unos auriculares inalámbricos.</p>
-                                                  <div className='iconContainer_task'>
-                                                        <div className='icon' style={{position:'relative',bottom:'10px'}}>
-                                                            <MdDelete width={30} height={30} color='white'/>
-                                                        </div>
-                                                        <div onClick={EditTaskPopUp} className='icon' style={{position:'relative',bottom:'10px'}}>
-                                                            <FaEdit width={30} height={30} color='white'/>
-                                                        </div>
-                                                  </div>
-                                        </div>
-                                        <div  className='Card border-green'>
-                                                  <p className='ClienteContainer font_medium white'>Avianca - 412D23</p>
-                                                  <p className='descripcionContainer font_Light gray'>Compra de productos electrónicos en línea: Este pago corresponde a la adquisición de un televisor inteligente de 55 pulgadas, un sistema de altavoces de alta fidelidad y unos auriculares inalámbricos.</p>
-                                                  <div className='iconContainer_task'>
-                                                        <div className='icon' style={{position:'relative',bottom:'10px'}}>
-                                                            <MdDelete width={30} height={30} color='white'/>
-                                                        </div>
-                                                        <div onClick={EditTaskPopUp} className='icon' style={{position:'relative',bottom:'10px'}}>
-                                                            <FaEdit width={30} height={30} color='white'/>
-                                                        </div>
-                                                  </div>
-                                        </div>
-
-                                </div>
-                          </div>
-                          <div className='Board swiper-wrapper'>
-                          <div className='nameTableContainer'>
-                                  <span className='white nameTable font_medium'>Pendientes</span>
-                                  <div className='iconsContainer'>
-                                    <div onClick={newTaskPopUp} className='icon'>
-                                        <TiPlusOutline width={30} height={30} color='white'/>
-                                    </div>
-                                    <div onClick={editBoardPopUp} className='icon'>
-                                        <FaEdit width={30} height={30} color='white'/>
-                                    </div>
-                                    <div className='icon'>
-                                        <MdDelete width={30} height={30} color='white'/>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className='contentTableContainer'>
-                                  <p className='content font_Light'>Tablero de descripción para tareas que aún no se han realizado</p>
-                                </div>
-                                <div className='itemsContainer'>
-                                        <div  className='Card border-green'>
-                                                  <p className='ClienteContainer font_medium white'>Avianca - 412D23</p>
-                                                  <p className='descripcionContainer font_Light gray'>Compra de productos electrónicos en línea: Este pago corresponde a la adquisición de un televisor inteligente de 55 pulgadas, un sistema de altavoces de alta fidelidad y unos auriculares inalámbricos.</p>
-                                                  <div className='iconContainer_task'>
-                                                        <div className='icon' style={{position:'relative',bottom:'10px'}}>
-                                                            <MdDelete width={30} height={30} color='white'/>
-                                                        </div>
-                                                        <div onClick={EditTaskPopUp} className='icon' style={{position:'relative',bottom:'10px'}}>
-                                                            <FaEdit width={30} height={30} color='white'/>
-                                                        </div>
-                                                  </div>
-                                        </div>
-
-                                </div>
-                          </div>
-                          <div className='Board swiper-wrapper'>
-                          <div className='nameTableContainer'>
-                                  <span className='white nameTable font_medium'>Pendientes</span>
-                                  <div className='iconsContainer'>
-                                    <div onClick={newTaskPopUp} className='icon'>
-                                        <TiPlusOutline width={30} height={30} color='white'/>
-                                    </div>
-                                    <div onClick={editBoardPopUp} className='icon'>
-                                        <FaEdit width={30} height={30} color='white'/>
-                                    </div>
-                                    <div className='icon'>
-                                        <MdDelete width={30} height={30} color='white'/>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className='contentTableContainer'>
-                                  <p className='content font_Light'>Tablero de descripción para tareas que aún no se han realizado</p>
-                                </div>
-                                <div className='itemsContainer'>
-                                        
-                                </div>
-                          </div>
+                              </div>
+                            )
+                          })}
                         </div>
                         
               </div>
           </div>  
     </div> 
-    <Board handleClose={handleClose} handleShow={handleShow} show={show}></Board> 
-    <BoardEdit handleClose={handleClose_2} handleShow={handleShow_2} show={show_2}></BoardEdit>
+    <Board getData={getBoards} handleClose={handleClose} handleShow={handleShow} show={show}></Board> 
+    <BoardEdit getData={getBoards} handleClose={handleClose_2} handleShow={handleShow_2} show={show_2}></BoardEdit>
     <Task handleClose={handleClose_3} handleShow={handleShow_3} show={show_3}></Task>
     <Offcanvas_task handleClose={handleClose_4} handleShow={handleShow_4} show={show_4}></Offcanvas_task>
     </>

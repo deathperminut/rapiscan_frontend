@@ -10,10 +10,22 @@ import Mirror from '../../img/background.png'
 import Swal from 'sweetalert2'
 import Logo_team from '../../img/Logo_team.png'
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { AppContext } from '../../Context';
 
 export default function Lobby() {
   /* NAVIGATE */
   const navigate=useNavigate();
+
+  /* APP CONTEXT */
+  let {userData,setToken,token,setUserData} = React.useContext(AppContext);
+
+  React.useEffect(()=>{
+      
+      if(!userData){
+              navigate('/Login')
+      }
+  },[userData])
+  
 
   const disabledModule = () =>{
     Swal.fire({
@@ -31,7 +43,14 @@ export default function Lobby() {
   }
 
   const  LogOut=()=>{
+    // setemoas las variables de usuario
+    setToken(null)
+    setUserData(null)
     navigate('/Login')
+  }
+
+  const change=()=>{
+    navigate('/Password')
   }
 
 
@@ -40,13 +59,14 @@ export default function Lobby() {
           <div className='Navbar_2'>
               <div onClick={seeDropDown} className='nameContainer dropdown-toggle d-flex flex-row justify-content-center align-items-center align-self-center'>
                   <span className='nameNavbar font_medium'>
-                  Juan Sebastian Mendez
+                  {userData?.username}
                   </span>
                   <NavDropdown
                     id="nav-dropdown-dark-example"
                     title=""
                     menuVariant="dark"
                   >
+                    <NavDropdown.Item onClick={change}>Cambiar contraseña</NavDropdown.Item>
                     <NavDropdown.Item onClick={LogOut}>Cerrar Sesión</NavDropdown.Item>
                   </NavDropdown>
               </div>

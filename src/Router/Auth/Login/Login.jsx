@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import Preloader from '../../../Components/Preloader/Loading'
 import Swal from 'sweetalert2'
 import { AppContext } from '../../../Context'
-import { LoginService } from '../../../services/Services'
+import { LoginService, getUserDetails } from '../../../services/Services'
 
 export default function Login() {
   /* NAVIGATE */
@@ -13,13 +13,13 @@ export default function Login() {
 
   /* app context */
 
-  let {userData,setUserData} = React.useContext(AppContext);
+  let {token,setToken,userData,setUserData} = React.useContext(AppContext);
 
   /* use State */
 
   let [preloader,setPreloader] = React.useState(false);
   let [user,setUser] = React.useState({
-    'user':'',
+    'username':'',
     'password':''
   })
 
@@ -36,7 +36,7 @@ export default function Login() {
   const submit =async()=>{
 
       // VALIDAMOS SI ESTAN TODOS LOS CAMPOS
-      if(user.user !== '' && user.password !==''){
+      if(user.username !== '' && user.password !==''){
         setPreloader(true);
         let result =  undefined
         result =  await LoginService(user).catch((error)=>{
@@ -49,10 +49,14 @@ export default function Login() {
         })
 
         if(result){
-          setPreloader(false);
+          // setPreloader(false);
           console.log(result.data);
-          setUserData(result.data);
-          navigate('/Lobby')
+          // OBTENEMOS LOS DATOS DEL USUARIO CON EL TOKEN
+          
+          setToken(result.data.token);
+
+          getUserData(result.data.token)
+          
           
         }
       }else{
@@ -62,6 +66,29 @@ export default function Login() {
         });
       }
   }
+
+  const getUserData=async(Token)=>{
+      let result =  undefined;
+      result =  await getUserDetails(Token).catch((error)=>{
+        setPreloader(false);
+        console.log(error);
+        Swal.fire({
+          icon: 'info',
+          title: 'No fue posible obtener la información del usuario'
+        });
+      })
+      if(result){
+        console.log(result.data);
+        setPreloader(false);
+        // Swal.fire({
+        //   icon: 'success',
+        //   title: 'Login realizado correctamente.'
+        // });
+        setUserData(result.data)
+        navigate('/Lobby')
+      }
+  }
+
 
 
   return (
@@ -77,7 +104,7 @@ export default function Login() {
               <p className='TitleLogin'>Digita tus credenciales para continuar</p>
               <div className='inputContainer'>
                   <div className='form-floating inner-addon- left-addon-'>
-                          <input onChange={(event)=>readInput(event,'user')} type="text" className='form-control' id='user' placeholder="Usuario" />
+                          <input onChange={(event)=>readInput(event,'username')} type="text" className='form-control' id='user' placeholder="Usuario" />
                           <label className='fs-5- ff-monse-regular-'>Usuario</label>
                   </div>
               </div>
@@ -90,8 +117,8 @@ export default function Login() {
               <div className='ButtonElement'>
                       <span onClick={()=>submit()} className='ButtonText'>Inicia sesión</span>
               </div>
-              <span onClick={()=>navigate('/Password')} className='textLogin'>Cambiar contraseña</span>
-              <span onClick={()=>navigate('/Recovery')} className='textLogin'>Recuperar contraseña</span>
+              {/* <span onClick={()=>navigate('/Password')} className='textLogin'>Cambiar contraseña</span> */}
+              {/* <span onClick={()=>navigate('/Recovery')} className='textLogin'>Recuperar contraseña</span> */}
           </form>
         </div>
     </div>
