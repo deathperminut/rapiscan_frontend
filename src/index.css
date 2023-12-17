@@ -1029,6 +1029,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.swal2-deny{
+  padding:10px 30px !important;
+  border-radius: 50px !important;
+}
+
 /* ---------------------------------------------------
     ICONS FORMS
   ----------------------------------------------------- */

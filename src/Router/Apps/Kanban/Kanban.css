@@ -248,8 +248,20 @@
 .border-green{
     border:1px solid rgb(81, 236, 94) !important;
 }
+
+.border-white{
+    border:1px solid white !important;
+}
+
+.border-purple{
+    border:1px solid rgb(79, 26, 114) !important;
+}
+
+.border-blue{
+    border:1px solid #0463a2 !important;
+}
 .bg-green{
-    background-color: rgb(81, 236, 94) !important;
+    background-color: #0463a2 !important;
 }
 .icon{
     background-color: #0463a2;
@@ -283,9 +295,10 @@
     min-height: 40px;
     word-wrap: break-word;
 }
+
 .descripcionContainer{
     width: 100%;
-    min-height: 80px;
+    min-height: 30px;
     padding: 5px;
     font-size: 10px;
     text-align: justify;

@@ -50,11 +50,15 @@ export default function Board(props) {
     if(result){
       console.log(result.data);
       setPreloader(false);
-      props?.handleClose();
-      props?.getData(false);
+      
       Swal.fire({
         icon: 'success',
         title: 'Tablero creado con éxito.'
+      }).then((data)=>{
+        if(data.isConfirmed){
+          props?.handleClose();
+          props?.getData(false);
+        }
       });
     }
 

@@ -12,11 +12,12 @@ function ProviderContext(props){
     let [boards,setBoards] = React.useState([]);
     let [board,setBoard] = React.useState(null);
     let [orders,setOrders] = React.useState([]);
+    let [selectOrder,setSelectOrder] = React.useState(null);
 
 
     return (
         
-        <AppContext.Provider value={{board,setBoard,token,setToken,userData,setUserData,boards,setBoards,orders,setOrders}}>
+        <AppContext.Provider value={{selectOrder,setSelectOrder,board,setBoard,token,setToken,userData,setUserData,boards,setBoards,orders,setOrders}}>
             {props.children}
         </AppContext.Provider>
         

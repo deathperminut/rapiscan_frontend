@@ -4,3 +4,28 @@
 .offcanvaTitle{
     color: white !important;
 }
+
+.fileLink{
+    margin-bottom: 20px !important;
+    cursor: pointer;
+}
+.fileLink:hover{
+    color: #0463a2;
+}
+.fileContainer{
+    width: 60px;
+    height: 60px;
+    background-color: #0463a2;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 5px 5px 10px rgba(124, 123, 123, 0.2);
+    cursor: pointer;
+    transition: 1s;
+}
+
+.fileContainer:hover{
+    transform: scale(1.5);
+}
+

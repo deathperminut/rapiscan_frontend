@@ -3,8 +3,11 @@ import './Offcanvas.css'
 import Offcanvas from 'react-bootstrap/Offcanvas';
 import Select, { components } from 'react-select';
 import makeAnimated from 'react-select/animated';
-
-
+import Preloader from '../Preloader/Loading';
+import Swal from 'sweetalert2';
+import { AppContext } from '../../Context';
+import { updateOrden, updateOrden_2 } from '../../services/Services';
+import { FaFileExport } from "react-icons/fa6";
 /**
  * MENSAJES PERSONALIZADOS AL BUSCAR O CARGAR OPCIONES EN REACT SELECT
  */
@@ -240,8 +243,116 @@ const selectStyles = {
   };
 
 export default function Offcanvas_task(props) {
+  
+  /* app context */
+
+  let {selectOrder,setSelectOrder,token} = React.useContext(AppContext);
+
+  /* useState */
+
+  let [preloader,setPreloader] = React.useState(false);
+  let [order,setOrder] = React.useState({
+    'quotation_number':'',
+    'state':'',
+    'po_code':'',
+    'final_client':'',
+    'sales_entity_code':'',
+    'country':'',
+    'distributor':'',
+    'notes':'',
+  })
+
+  let [file,setFile] = React.useState(null);
+
+  React.useEffect(()=>{
+
+    setOrder(selectOrder);
+
+  },[selectOrder])
+
+
+  // READ USE STATE
+
+  let readInputs=(event,type)=>{
+    
+    setOrder({...order,[type]:event.target.value})
+    
+  }
+
+  let readFile=(event)=>{
+    console.log(event.target.files[0]);
+    setFile(event.target.files[0]);
+  }
+
+  // EDITAMOS
+
+  const openFile=(url)=>{
+
+    window.open(url)
+
+  }
+
+
+  const editAnex=async()=>{
+
+    if(file !== null){
+
+      let result =  undefined;
+      setPreloader(true);
+      // eliminamos el tipo file para actualizar
+      result = await updateOrden_2(order,file,token).catch((error)=>{
+        setPreloader(false);
+        console.log(error);
+        Swal.fire({
+          icon: 'info',
+          title: 'Problemas para actualizar la orden.'
+        });
+      })
+
+      if(result){
+        setPreloader(false);
+        console.log(result.data);
+        Swal.fire({
+          icon: 'success',
+          title: 'Orden actualizada con éxito.'
+        });
+        props.handleClose();
+        props.getData(false);
+      }
+
+    }else{
+      let result =  undefined;
+      setPreloader(true);
+      // eliminamos el tipo file para actualizar
+      delete order?.attached_files
+      result = await updateOrden(order,token).catch((error)=>{
+        setPreloader(false);
+        console.log(error);
+        Swal.fire({
+          icon: 'info',
+          title: 'Problemas para actualizar la orden.'
+        });
+      })
+
+      if(result){
+        setPreloader(false);
+        console.log(result.data);
+        Swal.fire({
+          icon: 'success',
+          title: 'Orden actualizada con éxito.'
+        });
+        props.handleClose();
+        props.getData(false);
+      }
+    }
+
+  }
+
+
+
   return (
     <Offcanvas placement={'end'} show={props.show} onHide={props.handleClose}>
+        {preloader===true ? <Preloader></Preloader> : <></>}
         <Offcanvas.Header closeButton>
           <Offcanvas.Title className='offcanvaTitle font_medium'>Orden</Offcanvas.Title>
         </Offcanvas.Header>
@@ -249,49 +360,62 @@ export default function Offcanvas_task(props) {
             <p>Edita la información de la orden</p>
             <div className='inputContainer inputStyle'>
                 <div className='form-floating inner-addon- left-addon-'>
-                        <input type="text" className='form-control' id='user' placeholder="Usuario" />
-                        <label className='fs-5- ff-monse-regular-'>N° de cotización</label>
+                        <input onChange={(event)=>readInputs(event,'quotation_number')} value={order?.quotation_number} type="text" className='form-control' id='user' placeholder="Usuario" />
+                        <label className='fs-5- ff-monse-regular-'>Número de cotización</label>
                 </div>
             </div>
             <div className='inputContainer inputStyle'>
                 <div className='form-floating inner-addon- left-addon-'>
-                        <input type="text" className='form-control' id='user' placeholder="Usuario" />
-                        <label className='fs-5- ff-monse-regular-'>N° PIO</label>
+                        <input onChange={(event)=>readInputs(event,'po_code')} value={order?.po_code} type="text" className='form-control' id='user' placeholder="Usuario" />
+                        <label className='fs-5- ff-monse-regular-'>Código PO</label>
                 </div>
             </div>
             <div className='inputContainer inputStyle'>
                 <div className='form-floating inner-addon- left-addon-'>
-                        <input type="text" className='form-control' id='user' placeholder="Usuario" />
-                        <label className='fs-5- ff-monse-regular-'>Sell sensity</label>
-                </div>
-            </div>
-            <div className='inputContainer inputStyle'>
-                <div className='form-floating inner-addon- left-addon-'>
-                        <input type="text" className='form-control' id='user' placeholder="Usuario" />
-                        <label className='fs-5- ff-monse-regular-'>Distribuidor</label>
-                </div>
-            </div>
-            <div className='inputContainer inputStyle'>
-                <div className='form-floating inner-addon- left-addon-'>
-                        <input type="text" className='form-control' id='user' placeholder="Usuario" />
+                        <input onChange={(event)=>readInputs(event,'final_client')} value={order?.final_client} type="text" className='form-control' id='user' placeholder="Usuario" />
                         <label className='fs-5- ff-monse-regular-'>Cliente final</label>
                 </div>
             </div>
             <div className='inputContainer inputStyle'>
                 <div className='form-floating inner-addon- left-addon-'>
-                        <input type="text" className='form-control' id='user' placeholder="Usuario" />
-                        <label className='fs-5- ff-monse-regular-'>Sell person</label>
+                        <input onChange={(event)=>readInputs(event,'sales_entity_code')} value={order?.sales_entity_code} type="text" className='form-control' id='user' placeholder="Usuario" />
+                        <label className='fs-5- ff-monse-regular-'>Código de entidad de venta</label>
                 </div>
             </div>
             <div className='inputContainer inputStyle'>
-                    <div className='form-floating inner-addon- left-addon-'>
-                            <Select options={Entity} components={{ ValueContainer: CustomValueContainer, animatedComponents, NoOptionsMessage: customNoOptionsMessage, LoadingMessage: customLoadingMessage }} placeholder="Estado" styles={selectStyles} isClearable={true}  />
-                    </div>
+                <div className='form-floating inner-addon- left-addon-'>
+                        <input onChange={(event)=>readInputs(event,'country')} value={order?.country} type="text" className='form-control' id='user' placeholder="Usuario" />
+                        <label className='fs-5- ff-monse-regular-'>País</label>
+                </div>
+            </div>
+            <div className='inputContainer inputStyle'>
+                <div className='form-floating inner-addon- left-addon-'>
+                        <input onChange={(event)=>readInputs(event,'distributor')} value={order?.distributor} type="text" className='form-control' id='user' placeholder="Usuario" />
+                        <label className='fs-5- ff-monse-regular-'>Distribuidor</label>
+                </div>
             </div>
             <div style={{marginTop:'30px'}} className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
-                <textarea style={{height:'100px'}} className='form-control' id="exampleFormControlTextarea1" rows="4" placeholder='Ingresa una corta descripción aquí'  ></textarea>
+                <textarea onChange={(event)=>readInputs(event,'notes')} value={order?.notes} style={{height:'100px'}} className='form-control' id="exampleFormControlTextarea1" rows="4" placeholder='Ingresa una corta descripción aquí'  ></textarea>
             </div>
-            <div className='ButtonElement'>
+            <div className='inputContainer inputStyle' style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
+                  <a className='fileLink' href={order?.attached_files} target="_blank">Da clic para visualizar el anexo</a>
+            </div>
+            <div className='inputContainer inputStyle' style={{display:'flex',justifyContent:'center','alignItems':'center'}}>
+                  <div onClick={()=>openFile(order?.attached_files)} className='fileContainer'>
+                    <FaFileExport size={40}></FaFileExport>
+                  </div>
+            </div>
+            <div className='inputContainer inputStyle' style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
+            <p className='gray'>Cambia tus anexos mediante el siguiente formulario</p>
+            </div>
+            <div className='inputContainer inputStyle'>
+                
+                <div className='form-floating inner-addon- left-addon-'>
+                        <input onChange={(event)=>readFile(event)} type="file" className='form-control' id='user'/>
+                        <label className='fs-5- ff-monse-regular-'>Anexo</label>
+                </div>
+            </div>
+            <div onClick={editAnex} className='ButtonElement'>
                     <span className='ButtonText'>Editar</span>
             </div>
 

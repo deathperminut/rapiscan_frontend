@@ -15,7 +15,7 @@ import Offcanvas_task from '../../../Components/Offcanvas/Offcanvas';
 import { AppContext } from '../../../Context';
 import Preloader from '../../../Components/Preloader/Loading';
 import Swal from 'sweetalert2';
-import { deleteBoard, getBoardsData, getOrdersData } from '../../../services/Services';
+import { DeleteOrden, deleteBoard, getBoardsData, getOrdersData } from '../../../services/Services';
 
 export default function KanBan() { 
   /* navigate */
@@ -24,19 +24,21 @@ export default function KanBan() {
   
   /* use context */
 
-  let {board,setBoard,token,boards,setBoards,orders,setOrders,userData,setUserData,setToken} =  React.useContext(AppContext);
+  let {selectOrder,setSelectOrder,board,setBoard,token,boards,setBoards,orders,setOrders,userData,setUserData,setToken} =  React.useContext(AppContext);
 
   /* use States */
 
   let [preloader,setPreloader] = React.useState(false);
-
+  let [flag_1,setFlag_1] = React.useState(false)
   React.useEffect(()=>{
     //token
 
-    if(token !== null){
+    if(token !== null && flag_1 == false){
 
       // nos traemos los datos
+
       getBoards(true);
+      setFlag_1(true);
       
     }else{
 
@@ -151,36 +153,92 @@ export default function KanBan() {
     handleShow_2()
   }
 
-  const newTaskPopUp=()=>{
+  const newTaskPopUp=(b)=>{
+    setBoard(b)
     handleShow_3()
   }
 
-  const EditTaskPopUp=()=>{
+  const EditTaskPopUp=(ord)=>{
+    setSelectOrder(ord)
     handleShow_4()
   }
 
 
   const deleteTablet=async(obj)=>{
-    let result =  undefined;
-    setPreloader(true);
-    result =  await deleteBoard(obj,token).catch((error)=>{
-          console.log(error);
+
+    Swal.fire({
+      title: 'Seguro que deseas eliminar la orden?',
+      showDenyButton: true,
+      confirmButtonText: 'Si',
+      denyButtonText: 'No',
+    }).then(async(res) => {
+      if (res.isConfirmed) {
+
+        let result =  undefined;
+        setPreloader(true);
+        result =  await deleteBoard(obj,token).catch((error)=>{
+              console.log(error);
+              setPreloader(false);
+              Swal.fire({
+                icon: 'info',
+                title: 'Error al eliminar el tablero.'
+              });
+        })
+
+        if(result){
+          console.log(result);
           setPreloader(false);
           Swal.fire({
-            icon: 'info',
-            title: 'Error al eliminar el tablero.'
+            icon: 'success',
+            title: 'Tablero eliminado con éxito.'
           });
+          getBoards(false)
+        }
+            
+      }
+    })
+    
+  }
+
+  // delete Order
+  const deleteOrder=async(ord)=>{
+
+    Swal.fire({
+      title: 'Seguro que deseas eliminar la orden?',
+      showDenyButton: true,
+      confirmButtonText: 'Si',
+      denyButtonText: 'No',
+    }).then(async(res) => {
+      if (res.isConfirmed) {
+
+        let result =  undefined;
+        setPreloader(true);
+        result = await DeleteOrden(ord.id,token).catch((error)=>{
+            console.log(error);
+            setPreloader(false);
+            Swal.fire({
+              icon: 'info',
+              title: 'error al eliminar la orden'
+            });
+        })
+
+        if(result){
+
+          setPreloader(false);
+          console.log(result.data);
+          Swal.fire({
+            icon: 'success',
+            title: 'Eliminado con éxito.'
+          });
+          getOrders(false);
+
+        }
+
+      }
     })
 
-    if(result){
-      console.log(result);
-      setPreloader(false);
-      Swal.fire({
-        icon: 'success',
-        title: 'Tablero eliminado con éxito.'
-      });
-      getBoards(false)
-    }
+
+
   }
 
   
@@ -229,7 +287,7 @@ export default function KanBan() {
                                 <div className='nameTableContainer'>
                                   <span className='white nameTable font_medium'>{obj?.title}</span>
                                   <div className='iconsContainer'>
-                                    <div onClick={newTaskPopUp} className='icon'>
+                                    <div onClick={()=>newTaskPopUp(obj)} className='icon'>
                                         <TiPlusOutline width={30} height={30} color='white'/>
                                     </div>
                                     <div onClick={()=>editBoardPopUp(obj)} className='icon'>
@@ -244,55 +302,31 @@ export default function KanBan() {
                                   <p className='content font_Light'>{obj?.description}</p>
                                 </div>
                                 <div className='itemsContainer'>
-                                        <div  className='Card border-red'>
-                                                  <p className='ClienteContainer font_medium white'>Avianca - 412D23</p>
-                                                  <p className='descripcionContainer font_Light gray'>Compra de productos electrónicos en línea: Este pago corresponde a la adquisición de un televisor inteligente de 55 pulgadas, un sistema de altavoces de alta fidelidad y unos auriculares inalámbricos.</p>
+                                        {orders.map((ord,index)=>{
+                                          return(
+                                            <>
+                                            {ord.state == obj.id ? 
+                                            <div key={index}  className='Card border-blue'>
+                                                  <p className='ClienteContainer font_medium white'>{ord.final_client+' '+ord.quotation_number+' ('+ord.country+')'}</p>
+                                                  <p className='descripcionContainer font_Light gray'>{ord.notes}</p>
                                                   <div className='iconContainer_task'>
-                                                        <div className='icon' style={{position:'relative',bottom:'10px'}}>
+                                                        <div onClick={()=>deleteOrder(ord)} className='icon' style={{position:'relative',bottom:'10px'}}>
                                                             <MdDelete width={30} height={30} color='white'/>
                                                         </div>
-                                                        <div onClick={EditTaskPopUp} className='icon' style={{position:'relative',bottom:'10px'}}>
+                                                        <div onClick={()=>EditTaskPopUp(ord)} className='icon' style={{position:'relative',bottom:'10px'}}>
                                                             <FaEdit width={30} height={30} color='white'/>
                                                         </div>
                                                   </div>
-                                                  
-                                        </div>
-                                        <div  className='Card border-red'>
-                                                  <p className='ClienteContainer font_medium white'>Avianca - 412D23</p>
-                                                  <p className='descripcionContainer font_Light gray'>Compra de productos electrónicos en línea: Este pago corresponde a la adquisición de un televisor inteligente de 55 pulgadas, un sistema de altavoces de alta fidelidad y unos auriculares inalámbricos.</p>
-                                                  <div className='iconContainer_task'>
-                                                        <div className='icon' style={{position:'relative',bottom:'10px'}}>
-                                                            <MdDelete width={30} height={30} color='white'/>
-                                                        </div>
-                                                        <div onClick={EditTaskPopUp} className='icon' style={{position:'relative',bottom:'10px'}}>
-                                                            <FaEdit width={30} height={30} color='white'/>
-                                                        </div>
-                                                  </div>
-                                        </div>
-                                        <div  className='Card border-red'>
-                                                  <p className='ClienteContainer font_medium white'>Avianca - 412D23</p>
-                                                  <p className='descripcionContainer font_Light gray'>Compra de productos electrónicos en línea: Este pago corresponde a la adquisición de un televisor inteligente de 55 pulgadas, un sistema de altavoces de alta fidelidad y unos auriculares inalámbricos.</p>
-                                                  <div className='iconContainer_task'>
-                                                        <div className='icon' style={{position:'relative',bottom:'10px'}}>
-                                                            <MdDelete width={30} height={30} color='white'/>
-                                                        </div>
-                                                        <div onClick={EditTaskPopUp} className='icon' style={{position:'relative',bottom:'10px'}}>
-                                                            <FaEdit width={30} height={30} color='white'/>
-                                                        </div>
-                                                  </div>
-                                        </div>
-                                        <div  className='Card border-red'>
-                                                  <p className='ClienteContainer font_medium white'>Avianca - 412D23</p>
-                                                  <p className='descripcionContainer font_Light gray'>Compra de productos electrónicos en línea: Este pago corresponde a la adquisición de un televisor inteligente de 55 pulgadas, un sistema de altavoces de alta fidelidad y unos auriculares inalámbricos.</p>
-                                                  <div className='iconContainer_task'>
-                                                        <div className='icon' style={{position:'relative',bottom:'10px'}}>
-                                                            <MdDelete width={30} height={30} color='white'/>
-                                                        </div>
-                                                        <div onClick={EditTaskPopUp} className='icon' style={{position:'relative',bottom:'10px'}}>
-                                                            <FaEdit width={30} height={30} color='white'/>
-                                                        </div>
-                                                  </div>
-                                        </div>
+                                            </div>
+                                            :
+                                            <></>
+                                            }
+                                            
+                                            </>
+                                            
+                                          )
+                                        })}
+                                        
                                 </div>
                               </div>
                             )
@@ -304,8 +338,8 @@ export default function KanBan() {
     </div> 
     <Board getData={getBoards} handleClose={handleClose} handleShow={handleShow} show={show}></Board> 
     <BoardEdit getData={getBoards} handleClose={handleClose_2} handleShow={handleShow_2} show={show_2}></BoardEdit>
-    <Task handleClose={handleClose_3} handleShow={handleShow_3} show={show_3}></Task>
-    <Offcanvas_task handleClose={handleClose_4} handleShow={handleShow_4} show={show_4}></Offcanvas_task>
+    <Task getData={getOrders} handleClose={handleClose_3} handleShow={handleShow_3} show={show_3}></Task>
+    <Offcanvas_task getData={getOrders} handleClose={handleClose_4} handleShow={handleShow_4} show={show_4}></Offcanvas_task>
     </>
     
   )
