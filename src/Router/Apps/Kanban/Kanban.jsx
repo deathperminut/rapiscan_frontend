@@ -16,6 +16,30 @@ import { AppContext } from '../../../Context';
 import Preloader from '../../../Components/Preloader/Loading';
 import Swal from 'sweetalert2';
 import { DeleteOrden, deleteBoard, getBoardsData, getOrdersData } from '../../../services/Services';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+
+
+
+const getItemStyle = (isDragging, draggableStyle) => ({
+  userSelect: 'none',
+  padding: '10px',
+  margin: `0 0 10px 0`,
+  background: isDragging ? 'lightgreen' : 'grey',
+  ...draggableStyle,
+});
+
+const getListStyle = (isDraggingOver) => ({
+  background: isDraggingOver ? 'lightblue' : 'lightgrey',
+  padding: '10px',
+  width: 250,
+});
+
+const items = Array.from({ length: 10 }, (v, k) => k).map((i) => ({
+  id: `item-${i}`,
+  content: `Item ${i}`,
+}));
+
+
 
 export default function KanBan() { 
   /* navigate */
@@ -30,6 +54,8 @@ export default function KanBan() {
 
   let [preloader,setPreloader] = React.useState(false);
   let [flag_1,setFlag_1] = React.useState(false)
+
+
   React.useEffect(()=>{
     //token
 
@@ -68,14 +94,14 @@ export default function KanBan() {
     if(result){
       // obtenemos información
       console.log(result.data);
-      setBoards(result.data);
-      getOrders(flag);
+      //setBoards(result.data);
+      getOrders(flag,result.data);
 
     }
 
   }
 
-  const getOrders=async(flag)=>{
+  const getOrders=async(flag,boards_)=>{
 
     let result = undefined;
 
@@ -91,6 +117,11 @@ export default function KanBan() {
     if(result){
           setPreloader(false);
           console.log(result.data);
+          boards_ = boards_.map((b,index)=>{
+            b['orders'] = result.data.filter((obj)=>obj.state == b.id)
+            return b
+          })
+          setBoards(boards_);
           setOrders(result.data);
           if(flag){
             Swal.fire({
@@ -164,6 +195,7 @@ export default function KanBan() {
   }
 
 
+
   const deleteTablet=async(obj)=>{
 
     Swal.fire({
@@ -230,7 +262,7 @@ export default function KanBan() {
             icon: 'success',
             title: 'Eliminado con éxito.'
           });
-          getOrders(false);
+          getOrders(false,boards);
 
         }
 
@@ -241,10 +273,83 @@ export default function KanBan() {
 
   }
 
+  // DRAG AND DROP LOGIC
   
+  const [draggingItemId, setDraggingItemId] = React.useState(null);
+
+  const onDragStart = (initial) => {
+    setDraggingItemId(initial.draggableId);
+  };
+
+  const onDragEnd = (event) => {
+    // console.log(event);
+
+    // const destination=event.destination
+    // const origin = event.source
+    // const id = event.draggableId
+    // if(destination.droppableId !== origin.droppableId){
+    //   // filtramos la lista de donde viene
+      
+    //   // obtenemos el tablero a donde va
+    //   let filterBoardIndex_destination = boards.filter((obj,index)=>{
+    //     if (obj.id.toString() == destination.droppableId.toString()){
+    //       return index
+    //     }
+    //   })
+
+    //   let filterBoardIndex = boards.filter((obj,index)=>{
+    //     if (obj.id.toString() == origin.droppableId.toString()){
+    //       return index
+    //     }
+    //   })
+      
+
+    //   console.log(filterBoardIndex,filterBoardIndex_destination)
+    //   let BOARDS = [...boards];
+    //   // obtenemos la orden especifica
+    //   let specificOrder = BOARDS[filterBoardIndex[0]].orders[parseInt(id)]
+    //   // FILTRAMOS la orden de donde viene
+    //   BOARDS[filterBoardIndex[0]].orders = BOARDS[filterBoardIndex[0]].orders.map((obj,index)=>obj.id.toString() != id)
+    //   // LO COLOCAMOS EN EL ULTIMO LUGAR DE LA COLUMNA SIGUIENTE
+    //   BOARDS[filterBoardIndex_destination[0]].orders.push(specificOrder);
+    //   // guardamos los tableros
+    //   setBoards(BOARDS);
+    // }
+    // Aquí maneja la lógica de actualización del estado al soltar un elemento
+  };
+
+
+  const getTop = (topPre,scroll) => {
+    console.log(topPre-scroll)
+    if(topPre-scroll <0){
+      return 80
+    }else{
+      return 200
+    }
+    if(scroll < 80){
+
+      
+
+    }else if (scroll < 150){
+
+      return 90
+
+    }else if(scroll < 250){
+      
+      return 80
+
+    }else{
+      return 80
+    }
+  };
+
 
   
-
+  
+  
+  
+  
+  
 
   return (
     <>
@@ -280,58 +385,79 @@ export default function KanBan() {
                       </div>
               </div>
               <div className='KanbaContainer '>
-                        <div className='KanbaContainer_2 swiper-container'>
-                          {boards.map((obj,index)=>{
-                            return(
-                              <div key={index} className='Board swiper-wrapper'>
-                                <div className='nameTableContainer'>
-                                  <span className='white nameTable font_medium'>{obj?.title}</span>
-                                  <div className='iconsContainer'>
-                                    <div onClick={()=>newTaskPopUp(obj)} className='icon'>
-                                        <TiPlusOutline width={30} height={30} color='white'/>
-                                    </div>
-                                    <div onClick={()=>editBoardPopUp(obj)} className='icon'>
-                                        <FaEdit width={30} height={30} color='white'/>
-                                    </div>
-                                    <div onClick={()=>deleteTablet(obj)} className='icon'>
-                                        <MdDelete width={30} height={30} color='white'/>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className='contentTableContainer'>
-                                  <p className='content font_Light'>{obj?.description}</p>
-                                </div>
-                                <div className='itemsContainer'>
-                                        {orders.map((ord,index)=>{
-                                          return(
-                                            <>
-                                            {ord.state == obj.id ? 
-                                            <div key={index}  className='Card border-blue'>
-                                                  <p className='ClienteContainer font_medium white'>{ord.final_client+' '+ord.quotation_number+' ('+ord.country+')'}</p>
-                                                  <p className='descripcionContainer font_Light gray'>{ord.notes}</p>
-                                                  <div className='iconContainer_task'>
-                                                        <div onClick={()=>deleteOrder(ord)} className='icon' style={{position:'relative',bottom:'10px'}}>
-                                                            <MdDelete width={30} height={30} color='white'/>
-                                                        </div>
-                                                        <div onClick={()=>EditTaskPopUp(ord)} className='icon' style={{position:'relative',bottom:'10px'}}>
-                                                            <FaEdit width={30} height={30} color='white'/>
-                                                        </div>
-                                                  </div>
+                        <DragDropContext onDragStart={(initial) => onDragStart(initial)}
+                          onDragEnd={onDragEnd}
+                          className='KanbaContainer_2 swiper-container'>
+                          {boards.map((obj,index)=>(
+                              <Droppable droppableId={obj.id.toString()} key={obj?.id.toString()}>
+                              {(provided, snapshot)=>(
+                                    <div ref={provided.innerRef} {...provided.droppableProps}  className='Board swiper-wrapper' style={{
+                                      opacity: snapshot.isDraggingOver ? 0.2 : 1, // Reducir la opacidad si se arrastra sobre el Droppable
+                                      zIndex: snapshot.isDraggingOver ? 1 : 1,
+                                    /* Otros estilos */
+                                    }}>
+                                          <div className='nameTableContainer'>
+                                            <span className='white nameTable font_medium'>{obj?.title}</span>
+                                            <div className='iconsContainer'>
+                                              <div onClick={()=>newTaskPopUp(obj)} className='icon'>
+                                                  <TiPlusOutline width={30} height={30} color='white'/>
+                                              </div>
+                                              <div onClick={()=>editBoardPopUp(obj)} className='icon'>
+                                                  <FaEdit width={30} height={30} color='white'/>
+                                              </div>
+                                              <div onClick={()=>deleteTablet(obj)} className='icon'>
+                                                  <MdDelete width={30} height={30} color='white'/>
+                                              </div>
                                             </div>
-                                            :
-                                            <></>
-                                            }
-                                            
-                                            </>
-                                            
-                                          )
-                                        })}
-                                        
-                                </div>
-                              </div>
+                                          </div>
+                                          <div className='contentTableContainer'>
+                                            <p className='content font_Light'>{obj?.description}</p>
+                                          </div>
+                                          <div className='itemsContainer'>
+
+                                                  
+                                                  {obj?.orders.map((ord,index)=>(
+                                                    <Draggable draggableId={ord?.id.toString()} index={index} key={ord?.id.toString()} >
+                                                              {(provided,snapshot)=>(
+                                                              
+                                                              <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}  className={`Card border-blue ${snapshot.isDragging ? 'dragging' : ''}`}
+                                                                style={{
+                                                                      ...provided.draggableProps.style,
+                                                                      position:snapshot.isDragging ?  'absolute' : 'static',
+                                                                      left: snapshot.isDragging ? 0 : 0,
+                                                                      top: snapshot.isDragging ?  getTop(provided.draggableProps.style.top,window.scrollY)  : 0,
+                                                                    }} >
+                                                                    <p className='ClienteContainer font_medium white'>{ord.final_client+' '+ord.quotation_number+' ('+ord.country+')'}</p>
+                                                                    <p className='descripcionContainer font_Light gray'>{ord.notes}</p>
+                                                                    <div className='iconContainer_task'>
+                                                                          <div onClick={()=>deleteOrder(ord)} className='icon' style={{position:'relative',bottom:'10px'}}>
+                                                                              <MdDelete width={30} height={30} color='white'/>
+                                                                          </div>
+                                                                          <div onClick={()=>EditTaskPopUp(ord)} className='icon' style={{position:'relative',bottom:'10px'}}>
+                                                                              <FaEdit width={30} height={30} color='white'/>
+                                                                          </div>
+                                                                    </div>
+                                                              </div>
+
+                                                              )
+                                                              
+                                                              }
+                                                        </Draggable>
+                                                    
+                                                      
+                                                  )
+                                                   
+                                                  )}
+                                                  
+                                          </div>
+                                    </div>
+                              )}
+                              
+                              </Droppable>
+                              
                             )
-                          })}
-                        </div>
+                          )}
+                        </DragDropContext>
                         
               </div>
           </div>  

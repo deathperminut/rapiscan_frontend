@@ -246,7 +246,7 @@ export default function Offcanvas_task(props) {
   
   /* app context */
 
-  let {selectOrder,setSelectOrder,token} = React.useContext(AppContext);
+  let {selectOrder,setSelectOrder,token,boards} = React.useContext(AppContext);
 
   /* useState */
 
@@ -317,7 +317,7 @@ export default function Offcanvas_task(props) {
           title: 'Orden actualizada con éxito.'
         });
         props.handleClose();
-        props.getData(false);
+        props.getData(false,boards);
       }
 
     }else{
@@ -342,7 +342,7 @@ export default function Offcanvas_task(props) {
           title: 'Orden actualizada con éxito.'
         });
         props.handleClose();
-        props.getData(false);
+        props.getData(false,boards);
       }
     }
 

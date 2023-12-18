@@ -9,7 +9,7 @@ import { createOrder } from '../../services/Services';
 export default function Task(props) {
 
   // appContext
-  let {token,board} = React.useContext(AppContext);
+  let {token,board,boards} = React.useContext(AppContext);
 
   // useStates
   let [data,setData] = React.useState({
@@ -69,7 +69,7 @@ export default function Task(props) {
             icon: 'success',
             title: 'Orden creada con éxito.'
           });
-          props.getData(false);
+          props.getData(false,boards);
           props?.handleClose();
         }
 

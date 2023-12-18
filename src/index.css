@@ -2762,7 +2762,7 @@ input[type=number]::-webkit-outer-spin-button {
   box-sizing: content-box;
   width: 100%;
   height: 100%;
-  border: .25em solid rgba(57, 64, 92, 1) !important;
+  border: .25em solid black !important;
   border-radius: 6rem;
   -webkit-border-radius: 6rem;
   -moz-border-radius: 6rem;
