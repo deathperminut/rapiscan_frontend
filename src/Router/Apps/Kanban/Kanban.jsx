@@ -414,7 +414,7 @@ export default function KanBan() {
     {preloader===true ? <Preloader></Preloader> : <></>}
     <div className='Body_3'>
           <div className='Navbar'>
-              <div className='iconContainer_2'>
+              <div onClick={()=>navigate('/Lobby')} className='iconContainer_2' style={{cursor:'pointer'}}>
                 <span className='textIcon_2'>R</span>
               </div>
               <div onClick={seeDropDown} className='nameContainer dropdown-toggle d-flex flex-row justify-content-center align-items-center align-self-center'>
@@ -435,7 +435,7 @@ export default function KanBan() {
           </div>
           <div className='BodyKanban '>
               <div className='AppendKanbaContainer'>
-                      <p className='titleKanban font_medium'>Organiza tu flujo de trabajo de forma <span className='blue'>visual</span> y <span className='blue'>eficiente</span> con nuestro tablero <span className='blue'>Kanban</span></p>
+                      <p className='titleKanban font_medium'>Seguimiento de <span className='blue'>ordenes</span></p>
               </div>
               <div className='KanbaButtonContainer'>
                       <div onClick={appendBoardPopUp} className='ButtonElement_kanba'>
