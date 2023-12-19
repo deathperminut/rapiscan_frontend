@@ -9,6 +9,7 @@ import Airplane from '../../Components/Svg/Airplane/Airplane'
 import Mirror from '../../img/background.png'
 import Swal from 'sweetalert2'
 import Logo_team from '../../img/Logo_team.png'
+import title_team from '../../img/Title.png'
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import { AppContext } from '../../Context';
 
@@ -100,11 +101,11 @@ export default function Lobby() {
                   </p>
                 </div>
           </div>
-          <div className='itemsContent'>
+          {/* <div className='itemsContent'>
               <div className='item'></div>
               <div className='item'></div>
               <div className='item'></div>
-          </div>
+          </div> */}
           <div className='ModulesTitle'>
               <p className='textModules font_medium'>
                 Módulos
@@ -113,10 +114,10 @@ export default function Lobby() {
           <div className='Container'>
               <div className='moduleContainer'>
                       <div className='module_active' onClick={()=>navigate('/Kanban')}>
-                          <img className='imgModule' width={450} height={450} src={Logo_team}></img>
+                          <img className='imgModule' width={450} height={450} src={title_team}></img>
                       </div>
                       <div className='module' onClick={disabledModule}>
-                          <img style={{position:'absolute'}} src={Mirror}></img>
+                          <img  style={{position:'absolute'}} src={Mirror}></img>
                           <p className='textModule font_medium'>En desarrollo</p>
                       </div>
                       <div className='module' onClick={disabledModule}>

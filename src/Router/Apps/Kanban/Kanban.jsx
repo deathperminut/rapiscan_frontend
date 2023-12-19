@@ -62,8 +62,10 @@ export default function KanBan() {
     if(token !== null && flag_1 == false){
 
       // nos traemos los datos
-
-      getBoards(true);
+      if(boards.length == 0){
+        getBoards(true);
+      }
+      
       setFlag_1(true);
       
     }else{

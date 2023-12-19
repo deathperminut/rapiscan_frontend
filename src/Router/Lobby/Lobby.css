@@ -169,19 +169,18 @@
     letter-spacing: 0px;
     transition: 1s;
     color: #FFFFFF;
-    background-color: rgba(205, 205, 205, 0.799);
+    background-color: rgba(116, 116, 116, 0.2);
     -webkit-backdrop-filter: blur(10px);
     backdrop-filter: blur(10px);
 }
 .module_active:hover{
     box-shadow: 5px 5px 10px rgba(0, 0, 0, 1);
     transform: scale(1.1);
-    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, #bababa 100%);
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, #032c47 100%);
     cursor:pointer;
 }
 .imgModule{
     position: relative;
-    top: 20px;
 }
 .textModule{
     position: relative;
@@ -266,14 +265,14 @@
         letter-spacing: 0px;
         transition: 1s;
         color: #FFFFFF;
-        background-color: rgba(205, 205, 205, 0.799);
+        background-color: rgba(116, 116, 116, 0.2);
         -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
     }
     .module_active:hover{
         box-shadow: 5px 5px 10px rgba(0, 0, 0, 1);
         transform: scale(1.1);
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, #bababa 100%);
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, #032c47 100%);
         cursor:pointer;
     }
     .textModule{
@@ -377,14 +376,14 @@
         letter-spacing: 0px;
         transition: 1s;
         color: #FFFFFF;
-        background-color: rgba(205, 205, 205, 0.799);
+        background-color: rgba(116, 116, 116, 0.2);
         -webkit-backdrop-filter: blur(10px);
         backdrop-filter: blur(10px);
     }
     .module_active:hover{
         box-shadow: 5px 5px 10px rgba(0, 0, 0, 1);
         transform: scale(1.1);
-        background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, #bababa 100%);
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, #032c47 100%);
         cursor:pointer;
     }
     .textModule{
