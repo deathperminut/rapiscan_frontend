@@ -185,7 +185,7 @@ const updateOrden_2=async(body,token)=>{
         Authorization: 'Token ' + token,
       },
   };
-
+  console.log('datos a actualizar: ',body);
   let Body = new FormData();
   // AGREGAMOS ELEMENTOS
   Body.append('quotation_number',body.quotation_number);

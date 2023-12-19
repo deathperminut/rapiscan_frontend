@@ -54,7 +54,7 @@ export default function Task(props) {
 
     }else{
       // siempre se agrega al final
-      return board['orders'][board['orders']-1].position+1
+      return board['orders'][board['orders'].length-1].position+1
     }
   }
 

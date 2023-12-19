@@ -15,7 +15,7 @@ import Offcanvas_task from '../../../Components/Offcanvas/Offcanvas';
 import { AppContext } from '../../../Context';
 import Preloader from '../../../Components/Preloader/Loading';
 import Swal from 'sweetalert2';
-import { DeleteOrden, deleteBoard, getBoardsData, getOrdersData } from '../../../services/Services';
+import { DeleteOrden, deleteBoard, getBoardsData, getOrdersData, updateOrden_2 } from '../../../services/Services';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 
@@ -101,6 +101,12 @@ export default function KanBan() {
 
   }
 
+  const ordenateOrdersByPosition=(array)=>{
+
+    return array.sort((a, b) => a['position'] - b['position']);
+
+  }
+
   const getOrders=async(flag,boards_)=>{
 
     let result = undefined;
@@ -118,7 +124,7 @@ export default function KanBan() {
           setPreloader(false);
           console.log(result.data);
           boards_ = boards_.map((b,index)=>{
-            b['orders'] = result.data.filter((obj)=>obj.state == b.id)
+            b['orders'] = ordenateOrdersByPosition(result.data.filter((obj)=>obj.state == b.id))
             return b
           })
           setBoards(boards_);
@@ -233,7 +239,7 @@ export default function KanBan() {
   }
 
   // delete Order
-  const deleteOrder=async(ord)=>{
+  const deleteOrder=async(index_order,index_board)=>{
 
     Swal.fire({
       title: 'Seguro que deseas eliminar la orden?',
@@ -242,9 +248,28 @@ export default function KanBan() {
       denyButtonText: 'No',
     }).then(async(res) => {
       if (res.isConfirmed) {
-
-        let result =  undefined;
         setPreloader(true);
+        let ord = boards[index_board].orders[index_order];
+        let board_temp = boards[index_board];
+        // filtramos el arreglo
+        board_temp.orders = board_temp.orders.filter((obj,index)=> parseInt(index) != index_order );
+        // actualizamos en base de datos la posición de cada elemento para el tablero que se elimina
+        let res = undefined
+        for (let i=0;i<board_temp.orders.length;i++){
+            board_temp.orders[i]['position'] = i;
+            let order_up = board_temp.orders[i]
+            res = await updateOrden_2(order_up,token).catch((error)=>{
+              console.log(error);
+            })
+            if(res){
+              console.log("Actualizamos delete",res.data);
+              res = undefined 
+            }
+
+        }
+        
+        let result =  undefined;
+        
         result = await DeleteOrden(ord.id,token).catch((error)=>{
             console.log(error);
             setPreloader(false);
@@ -262,7 +287,7 @@ export default function KanBan() {
             icon: 'success',
             title: 'Eliminado con éxito.'
           });
-          getOrders(false,boards);
+          getBoards(false);
 
         }
 
@@ -274,6 +299,29 @@ export default function KanBan() {
   }
 
   // DRAG AND DROP LOGIC
+
+  function insertarEnIndice(lista, indice, objeto) {
+    lista.splice(indice, 0, objeto);
+    // ACTUALIZAMOS LOS VALORES DE LOS DEMAS ARREGLOS
+    for (let i = indice; i < lista.length; i++) {
+      if(i == indice){
+        lista[i]['position'] = parseInt(lista[i]['position']);
+      }else{
+        lista[i]['position'] = parseInt(lista[i]['position'])+1;
+      }
+      
+      // actualizamos en base de datos
+      updateOrden_2(lista[i],token).then((data)=>{
+        console.log("ACTUALIZADO CON EXITO",data);
+      }).catch((error)=>{
+        console.log("error actualizar _1",error);
+      })
+    }
+   
+
+   
+    return lista;
+  }
   
   const [draggingItemId, setDraggingItemId] = React.useState(null);
 
@@ -281,46 +329,56 @@ export default function KanBan() {
     setDraggingItemId(initial.draggableId);
   };
 
+  const updatePositions=(data)=>{
+
+    for (let i = 0; i<data.orders.length;i++){
+      data.orders[i]['position'] = i;
+      // actualizamos en base de datos
+      updateOrden_2(data.orders[i],token).then((d)=>{
+        console.log("ACTUALIZADO CON EXITO",d);
+      }).catch((error)=>{
+        console.log("error actualizar _2",error);
+      })
+    }
+
+    return data
+
+  }
+
   const onDragEnd = (event) => {
-    // console.log(event);
+    console.log(event);
+    // OBTENGO EL ORIGEN Y EL FIN
+    const destination=event.destination
+    const origin = event.source
+    console.log(destination,origin)
 
-    // const destination=event.destination
-    // const origin = event.source
-    // const id = event.draggableId
-    // if(destination.droppableId !== origin.droppableId){
-    //   // filtramos la lista de donde viene
-      
-    //   // obtenemos el tablero a donde va
-    //   let filterBoardIndex_destination = boards.filter((obj,index)=>{
-    //     if (obj.id.toString() == destination.droppableId.toString()){
-    //       return index
-    //     }
-    //   })
+    if ((parseInt(destination.droppableId) == parseInt(origin.droppableId)) && (parseInt(destination.index) == parseInt(origin.index))){
+      console.log("true");
+    }else{
+      // ELIMINAMOS DE LA LISTA DEL TABLERO ORIGINAL
+      let dataBoards = [...boards];
+      // obtenemos el tablero de origin
+      let selectOrder = dataBoards[parseInt(origin.droppableId)].orders[parseInt(origin.index)] // obtenemos la orden a actualizar
+      // le actualizamos la información de donde va a quedar
+      selectOrder['position'] = parseInt(destination.index);
+      selectOrder['state'] = dataBoards[parseInt(destination.droppableId)].id;
+      console.log('NUEVO ESTADO :',selectOrder);
+      // lo eliminamos del tablero donde estaba
+      console.log('TABLERO VIEJO :',dataBoards[parseInt(origin.droppableId)]);
+      console.log('TABLERO NUEVO :',dataBoards[parseInt(destination.droppableId)]);
+      dataBoards[parseInt(origin.droppableId)].orders = dataBoards[parseInt(origin.droppableId)].orders.filter((obj,index)=>parseInt(index) != parseInt(origin.index) );
+      // actualizamos las posiciones de dicho tablero
+      dataBoards[parseInt(origin.droppableId)] = updatePositions(dataBoards[parseInt(origin.droppableId)])
+      // ACTUALIZAMOS LA POSICIÓN DEL ARREGLO EN EL NUEVO TABLERO
+      dataBoards[parseInt(destination.droppableId)].orders = insertarEnIndice(dataBoards[parseInt(destination.droppableId)].orders,destination.index,selectOrder)
+      // Guardamos los tableros en el appContext
+      setBoards(dataBoards);
+    }
 
-    //   let filterBoardIndex = boards.filter((obj,index)=>{
-    //     if (obj.id.toString() == origin.droppableId.toString()){
-    //       return index
-    //     }
-    //   })
-      
-
-    //   console.log(filterBoardIndex,filterBoardIndex_destination)
-    //   let BOARDS = [...boards];
-    //   // obtenemos la orden especifica
-    //   let specificOrder = BOARDS[filterBoardIndex[0]].orders[parseInt(id)]
-    //   // FILTRAMOS la orden de donde viene
-    //   BOARDS[filterBoardIndex[0]].orders = BOARDS[filterBoardIndex[0]].orders.map((obj,index)=>obj.id.toString() != id)
-    //   // LO COLOCAMOS EN EL ULTIMO LUGAR DE LA COLUMNA SIGUIENTE
-    //   BOARDS[filterBoardIndex_destination[0]].orders.push(specificOrder);
-    //   // guardamos los tableros
-    //   setBoards(BOARDS);
-    // }
-    // Aquí maneja la lógica de actualización del estado al soltar un elemento
   };
 
 
   const getTop = (topPre,scroll) => {
-    console.log(topPre-scroll)
     if(topPre-scroll <0){
       return 80
     }else{
@@ -388,8 +446,8 @@ export default function KanBan() {
                         <DragDropContext onDragStart={(initial) => onDragStart(initial)}
                           onDragEnd={onDragEnd}
                           className='KanbaContainer_2 swiper-container'>
-                          {boards.map((obj,index)=>(
-                              <Droppable droppableId={obj.id.toString()} key={obj?.id.toString()}>
+                          {boards.map((obj,index_1)=>(
+                              <Droppable droppableId={index_1.toString()} key={index_1.toString()}>
                               {(provided, snapshot)=>(
                                     <div ref={provided.innerRef} {...provided.droppableProps}  className='Board swiper-wrapper' style={{
                                       opacity: snapshot.isDraggingOver ? 0.2 : 1, // Reducir la opacidad si se arrastra sobre el Droppable
@@ -430,7 +488,7 @@ export default function KanBan() {
                                                                     <p className='ClienteContainer font_medium white'>{ord.final_client+' '+ord.quotation_number+' ('+ord.country+')'}</p>
                                                                     {/* <p className='descripcionContainer font_Light gray'>{ord.notes}</p> */}
                                                                     <div className='iconContainer_task'>
-                                                                          <div onClick={()=>deleteOrder(ord)} className='icon' style={{position:'relative',bottom:'10px'}}>
+                                                                          <div onClick={()=>deleteOrder(index,index_1)} className='icon' style={{position:'relative',bottom:'10px'}}>
                                                                               <MdDelete width={30} height={30} color='white'/>
                                                                           </div>
                                                                           <div onClick={()=>EditTaskPopUp(ord)} className='icon' style={{position:'relative',bottom:'10px'}}>
