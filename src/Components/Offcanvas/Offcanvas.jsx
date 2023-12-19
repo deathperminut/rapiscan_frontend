@@ -376,12 +376,7 @@ export default function Offcanvas_task(props) {
                         <label className='fs-5- ff-monse-regular-'>Cliente final</label>
                 </div>
             </div>
-            <div className='inputContainer inputStyle'>
-                <div className='form-floating inner-addon- left-addon-'>
-                        <input onChange={(event)=>readInputs(event,'sales_entity_code')} value={order?.sales_entity_code} type="text" className='form-control' id='user' placeholder="Usuario" />
-                        <label className='fs-5- ff-monse-regular-'>Código de entidad de venta</label>
-                </div>
-            </div>
+            
             <div className='inputContainer inputStyle'>
                 <div className='form-floating inner-addon- left-addon-'>
                         <input onChange={(event)=>readInputs(event,'country')} value={order?.country} type="text" className='form-control' id='user' placeholder="Usuario" />
@@ -392,6 +387,12 @@ export default function Offcanvas_task(props) {
                 <div className='form-floating inner-addon- left-addon-'>
                         <input onChange={(event)=>readInputs(event,'distributor')} value={order?.distributor} type="text" className='form-control' id='user' placeholder="Usuario" />
                         <label className='fs-5- ff-monse-regular-'>Distribuidor</label>
+                </div>
+            </div>
+            <div className='inputContainer inputStyle'>
+                <div className='form-floating inner-addon- left-addon-'>
+                        <input onChange={(event)=>readInputs(event,'sales_entity_code')} value={order?.sales_entity_code} type="text" className='form-control' id='user' placeholder="Usuario" />
+                        <label className='fs-5- ff-monse-regular-'>Código de entidad de venta</label>
                 </div>
             </div>
             <div style={{marginTop:'30px'}} className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>

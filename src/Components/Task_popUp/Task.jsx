@@ -21,6 +21,14 @@ export default function Task(props) {
     'country':'',
     'distributor':'',
     'notes':'',
+    'position':'',
+    'aes_file_url':null,
+    'eus_file_url':null,
+    'caf_file_url':null,
+    'delivery_checklist_file_url':null,
+    'quotation_file_url':null,
+    'po_file_url':null,
+    'ectr_file_url':null,
   })
 
   let [file,setFile] = React.useState(null);
@@ -33,11 +41,22 @@ export default function Task(props) {
     
   }
 
-  let readFile=(event)=>{
+  let readFile=(event,type)=>{
     console.log(event.target.files[0]);
-    setFile(event.target.files[0]);
+    setData({...data,[type]:event.target.files[0]})
   }
   
+
+  const getPosition=()=>{
+    if(board['orders'].length == 0){
+
+      return 0
+
+    }else{
+      // siempre se agrega al final
+      return board['orders'][board['orders']-1].position+1
+    }
+  }
 
 
   // functions
@@ -47,13 +66,12 @@ export default function Task(props) {
   
   const newOrder=async()=>{
 
-    if(data.sales_entity_code!=='' && data.quotation_number!=='' && data.po_code!=='' && data.notes!=='' && data.final_client!=='' && data.distributor!=='' && data.country!==''){
+    if(data.quotation_number!=='' && data.po_code!=='' && data.final_client!=='' && data.country!=='' && data.distributor!==''){
 
-      if(file !== null){
-
-        setPreloader(true);
+      setPreloader(true);
         let result  =  undefined;
-        result = await createOrder({...data,['state']:board?.id},file,token).catch((error)=>{
+        let position = getPosition();
+        result = await createOrder({...data,['state']:board?.id,['position']:position},token).catch((error)=>{
           console.log(error);
           setPreloader(false);
           Swal.fire({
@@ -72,13 +90,6 @@ export default function Task(props) {
           props.getData(false,boards);
           props?.handleClose();
         }
-
-      }else{
-        Swal.fire({
-          icon: 'info',
-          title: 'Adjunta el archivo de soporte para continuar.'
-        });
-      }
 
     }else{
       
@@ -121,12 +132,6 @@ export default function Task(props) {
             </div>
             <div className='inputContainer inputStyle'>
                 <div className='form-floating inner-addon- left-addon-'>
-                        <input onChange={(event)=>readInputs(event,'sales_entity_code')} type="text" className='form-control' id='user' placeholder="Usuario" />
-                        <label className='fs-5- ff-monse-regular-'>Código de entidad de venta</label>
-                </div>
-            </div>
-            <div className='inputContainer inputStyle'>
-                <div className='form-floating inner-addon- left-addon-'>
                         <input onChange={(event)=>readInputs(event,'country')} type="text" className='form-control' id='user' placeholder="Usuario" />
                         <label className='fs-5- ff-monse-regular-'>País</label>
                 </div>
@@ -137,13 +142,56 @@ export default function Task(props) {
                         <label className='fs-5- ff-monse-regular-'>Distribuidor</label>
                 </div>
             </div>
+            <div className='inputContainer inputStyle'>
+                <div className='form-floating inner-addon- left-addon-'>
+                        <input onChange={(event)=>readInputs(event,'sales_entity_code')} type="text" className='form-control' id='user' placeholder="Usuario" />
+                        <label className='fs-5- ff-monse-regular-'>Código de entidad de venta</label>
+                </div>
+            </div>
+            
             <div style={{marginTop:'30px'}} className='col-12 col-sm-12 col-md-12 col-lg-12 col-xl-12 col-xxl-12 mb-3 mb-sm-3 mb-md-4 mb-lg-4 mb-xl-4 mb-xxl-4'>
                 <textarea onChange={(event)=>readInputs(event,'notes')} style={{height:'100px'}} className='form-control' id="exampleFormControlTextarea1" rows="4" placeholder='Ingresa un corto comentario aquí'  ></textarea>
             </div>
             <div className='inputContainer inputStyle'>
                 <div className='form-floating inner-addon- left-addon-'>
-                        <input onChange={(event)=>readFile(event)} type="file" className='form-control' id='user' placeholder="Usuario" />
-                        <label className='fs-5- ff-monse-regular-'>Anexo</label>
+                        <input onChange={(event)=>readFile(event,'aes_file_url')} type="file" className='form-control' id='user' placeholder="Usuario" />
+                        <label className='fs-5- ff-monse-regular-'>Aes (Anexo)</label>
+                </div>
+            </div>
+            <div className='inputContainer inputStyle'>
+                <div className='form-floating inner-addon- left-addon-'>
+                        <input onChange={(event)=>readFile(event,'eus_file_url')} type="file" className='form-control' id='user' placeholder="Usuario" />
+                        <label className='fs-5- ff-monse-regular-'>Eus (Anexo)</label>
+                </div>
+            </div>
+            <div className='inputContainer inputStyle'>
+                <div className='form-floating inner-addon- left-addon-'>
+                        <input onChange={(event)=>readFile(event,'caf_file_url')} type="file" className='form-control' id='user' placeholder="Usuario" />
+                        <label className='fs-5- ff-monse-regular-'>Caf (Anexo)</label>
+                </div>
+            </div>
+            <div className='inputContainer inputStyle'>
+                <div className='form-floating inner-addon- left-addon-'>
+                        <input onChange={(event)=>readFile(event,'delivery_checklist_file_url')} type="file" className='form-control' id='user' placeholder="Usuario" />
+                        <label className='fs-5- ff-monse-regular-'>Lista de verificación (Anexo)</label>
+                </div>
+            </div>
+            <div className='inputContainer inputStyle'>
+                <div className='form-floating inner-addon- left-addon-'>
+                        <input onChange={(event)=>readFile(event,'quotation_file_url')} type="file" className='form-control' id='user' placeholder="Usuario" />
+                        <label className='fs-5- ff-monse-regular-'>Cotización (Anexo)</label>
+                </div>
+            </div>
+            <div className='inputContainer inputStyle'>
+                <div className='form-floating inner-addon- left-addon-'>
+                        <input onChange={(event)=>readFile(event,'po_file_url')} type="file" className='form-control' id='user' placeholder="Usuario" />
+                        <label className='fs-5- ff-monse-regular-'>Po (Anexo)</label>
+                </div>
+            </div>
+            <div className='inputContainer inputStyle'>
+                <div className='form-floating inner-addon- left-addon-'>
+                        <input onChange={(event)=>readFile(event,'ectr_file_url')} type="file" className='form-control' id='user' placeholder="Usuario" />
+                        <label className='fs-5- ff-monse-regular-'>Ectr (Anexo)</label>
                 </div>
             </div>
 

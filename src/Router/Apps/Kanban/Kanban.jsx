@@ -428,7 +428,7 @@ export default function KanBan() {
                                                                       top: snapshot.isDragging ?  getTop(provided.draggableProps.style.top,window.scrollY)  : 0,
                                                                     }} >
                                                                     <p className='ClienteContainer font_medium white'>{ord.final_client+' '+ord.quotation_number+' ('+ord.country+')'}</p>
-                                                                    <p className='descripcionContainer font_Light gray'>{ord.notes}</p>
+                                                                    {/* <p className='descripcionContainer font_Light gray'>{ord.notes}</p> */}
                                                                     <div className='iconContainer_task'>
                                                                           <div onClick={()=>deleteOrder(ord)} className='icon' style={{position:'relative',bottom:'10px'}}>
                                                                               <MdDelete width={30} height={30} color='white'/>

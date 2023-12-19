@@ -30,6 +30,15 @@ export default function Board(props) {
     
   }
 
+  const getIndex=()=>{
+    if(boards.length == 0){
+      return 0
+    }else{
+      let b = boards[boards.length-1]
+      return b.index + 1
+    }
+  }
+
   // createboard
 
   const appendBoard=async()=>{
@@ -38,7 +47,8 @@ export default function Board(props) {
 
     let result = undefined
     setPreloader(true);
-    result =  createBoard({...data,['index']:boards.length+1},token).catch((error)=>{
+    let index_new =  getIndex();
+    result =  createBoard({...data,['index']:index_new},token).catch((error)=>{
       console.log(error);
       setPreloader(false);
       Swal.fire({

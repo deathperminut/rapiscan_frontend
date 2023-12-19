@@ -101,7 +101,7 @@ const deleteBoard=async(body,token)=>{
 
 /* ORDERS DATA */
 
-const createOrder = async(body,file,token)=>{
+const createOrder = async(body,token)=>{
 
   let config = {
     headers: {
@@ -119,7 +119,15 @@ const createOrder = async(body,file,token)=>{
   Body.append('country',body.country);
   Body.append('distributor',body.distributor);
   Body.append('notes',body.notes);
-  Body.append('attached_files',file);
+  Body.append('position',body.position);
+  // los archivos tienen una logica diferente
+  Body.append('aes_file_url',body.aes_file_url);
+  Body.append('eus_file_url',body.eus_file_url);
+  Body.append('caf_file_url',body.caf_file_url);
+  Body.append('delivery_checklist_file_url',body.delivery_checklist_file_url);
+  Body.append('quotation_file_url',body.quotation_file_url);
+  Body.append('po_file_url',body.po_file_url);
+  Body.append('ectr_file_url',body.ectr_file_url);
   // FORMDATA
   let path = environment.api+environment.create_order
 
