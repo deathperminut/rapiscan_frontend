@@ -7,15 +7,43 @@
 
 .fileLink{
     margin-bottom: 20px !important;
-    cursor: pointer;
 }
-.fileLink:hover{
-    color: #0463a2;
+.overflow-x{
+    overflow-x: auto;
+    width: 100% !important;
 }
+
+.display-column{
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.7rem;
+}
+
+.display-row{
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+}
+
 .fileContainer{
-    width: 60px;
-    height: 60px;
+    width: 40px;
+    height: 40px;
     background-color: #0463a2;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 5px 5px 10px rgba(124, 123, 123, 0.2);
+    cursor: pointer;
+    transition: 1s;
+}
+.fileContainer_2{
+    width: 40px;
+    height: 40px;
+    background-color: #141424;
     border-radius: 4px;
     display: flex;
     align-items: center;
@@ -26,6 +54,6 @@
 }
 
 .fileContainer:hover{
-    transform: scale(1.5);
+    background-color: #141424;
 }
 

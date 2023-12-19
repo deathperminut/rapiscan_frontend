@@ -260,9 +260,11 @@ export default function Offcanvas_task(props) {
     'country':'',
     'distributor':'',
     'notes':'',
+    'position':'',
   })
 
-  let [file,setFile] = React.useState(null);
+  let [file,setFile] = React.useState('');
+  let [title,setTitle] = React.useState('');
 
   React.useEffect(()=>{
 
@@ -281,51 +283,43 @@ export default function Offcanvas_task(props) {
 
   let readFile=(event)=>{
     console.log(event.target.files[0]);
-    setFile(event.target.files[0]);
+    setOrder({...order,[title]:event.target.files[0]})
+    Swal.fire({
+      icon: 'info',
+      title: 'Completa la acción dando clic en guardar.',
+    });
   }
 
   // EDITAMOS
 
-  const openFile=(url)=>{
+  const openFile=(url,t)=>{
 
-    window.open(url)
+    if(url == null){
+      Swal.fire({
+        icon: 'info',
+        title: 'No tienes un archivo cargado, usa el formulario para actualizar el archivo',
+      });
+    }else{
+      Swal.fire({
+        icon: 'success',
+        title: 'Archivo cargado, da clic en ver para visualizar'
+      });
+    }
+
+    setFile(url);
+    setTitle(t);
+    //window.open(url)
 
   }
 
 
   const editAnex=async()=>{
 
-    if(file !== null){
-
-      let result =  undefined;
-      setPreloader(true);
-      // eliminamos el tipo file para actualizar
-      result = await updateOrden_2(order,file,token).catch((error)=>{
-        setPreloader(false);
-        console.log(error);
-        Swal.fire({
-          icon: 'info',
-          title: 'Problemas para actualizar la orden.'
-        });
-      })
-
-      if(result){
-        setPreloader(false);
-        console.log(result.data);
-        Swal.fire({
-          icon: 'success',
-          title: 'Orden actualizada con éxito.'
-        });
-        props.handleClose();
-        props.getData(false,boards);
-      }
-
-    }else{
       let result =  undefined;
       setPreloader(true);
       // eliminamos el tipo file para actualizar
       delete order?.attached_files
-      result = await updateOrden(order,token).catch((error)=>{
+      result = await updateOrden_2(order,token).catch((error)=>{
         setPreloader(false);
         console.log(error);
         Swal.fire({
@@ -341,9 +335,36 @@ export default function Offcanvas_task(props) {
           icon: 'success',
           title: 'Orden actualizada con éxito.'
         });
+        setOrder({
+          'quotation_number':'',
+          'state':'',
+          'po_code':'',
+          'final_client':'',
+          'sales_entity_code':'',
+          'country':'',
+          'distributor':'',
+          'notes':'',
+          'position':'',
+        });
+        setFile('');
+        setTitle('');
         props.handleClose();
         props.getData(false,boards);
       }
+
+  }
+
+  const seeFile=()=>{
+
+    if(file == null){
+
+      Swal.fire({
+        icon: 'info',
+        title: 'No tienes un archivo cargado'
+      });
+
+    }else{
+      window.open(file);
     }
 
   }
@@ -399,25 +420,186 @@ export default function Offcanvas_task(props) {
                 <textarea onChange={(event)=>readInputs(event,'notes')} value={order?.notes} style={{height:'100px'}} className='form-control' id="exampleFormControlTextarea1" rows="4" placeholder='Ingresa una corta descripción aquí'  ></textarea>
             </div>
             <div className='inputContainer inputStyle' style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
-                  <a className='fileLink' href={order?.attached_files} target="_blank">Da clic para visualizar el anexo</a>
+                  <span className='fileLink'>Da clic para visualizar el anexo</span>
             </div>
-            <div className='inputContainer inputStyle' style={{display:'flex',justifyContent:'center','alignItems':'center'}}>
-                  <div onClick={()=>openFile(order?.attached_files)} className='fileContainer'>
-                    <FaFileExport size={40}></FaFileExport>
+            <div className='inputContainer inputStyle overflow-x' style={{display:'flex',justifyContent:'center','alignItems':'center'}}>
+                  {title == 'aes_file_url' ? 
+                  <div className='display-column'>
+
+                        <div className='fileContainer_2'>
+                          <FaFileExport size={20}></FaFileExport>
+                        </div>
+                        <span style={{marginTop:'10px'}}>Aes</span>
+
                   </div>
+                  :
+                  <div className='display-column'>
+
+                        <div onClick={()=>openFile(order?.aes_file_url,'aes_file_url')} className='fileContainer'>
+                          <FaFileExport size={20}></FaFileExport>
+                        </div>
+                        <span style={{marginTop:'10px'}}>Aes</span>
+
+                  </div>
+                  }
+
+                  {title == 'eus_file_url' ? 
+                  <div className='display-column'>
+
+                        <div className='fileContainer_2'>
+                          <FaFileExport size={20}></FaFileExport>
+                        </div>
+                        <span style={{marginTop:'10px'}}>Eus</span>
+
+                  </div>
+                  :
+                  <div className='display-column'>
+
+                        <div onClick={()=>openFile(order?.eus_file_url,'eus_file_url')} className='fileContainer'>
+                          <FaFileExport size={20}></FaFileExport>
+                        </div>
+                        <span style={{marginTop:'10px'}}>Eus</span>
+
+                  </div>
+                  }
+
+                  {title == 'caf_file_url' ? 
+                  <div className='display-column'>
+
+                        <div className='fileContainer_2'>
+                          <FaFileExport size={20}></FaFileExport>
+                        </div>
+                        <span style={{marginTop:'10px'}}>Caf</span>
+
+                  </div>
+                  :
+                  <div className='display-column'>
+
+                        <div onClick={()=>openFile(order?.caf_file_url,'caf_file_url')} className='fileContainer'>
+                          <FaFileExport size={20}></FaFileExport>
+                        </div>
+                        <span style={{marginTop:'10px'}}>Caf</span>
+
+                  </div>
+                  }
+                  
+                  
+                  
             </div>
-            <div className='inputContainer inputStyle' style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
-            <p className='gray'>Cambia tus anexos mediante el siguiente formulario</p>
+            <div className='inputContainer inputStyle overflow-x' style={{display:'flex',justifyContent:'center','alignItems':'center'}}>
+
+                {title == 'delivery_checklist_file_url' ? 
+                    <div className='display-column'>
+
+                        <div className='fileContainer_2'>
+                          <FaFileExport size={20}></FaFileExport>
+                        </div>
+                        <span style={{marginTop:'10px'}}>checklist</span>
+
+                    </div>
+                  :
+                    <div className='display-column'>
+
+                        <div onClick={()=>openFile(order?.delivery_checklist_file_url,'delivery_checklist_file_url')} className='fileContainer'>
+                          <FaFileExport size={20}></FaFileExport>
+                        </div>
+                        <span style={{marginTop:'10px'}}>checklist</span>
+
+                    </div>
+                  }
+
+                  {title == 'quotation_file_url' ? 
+                      <div className='display-column'>
+
+                          <div className='fileContainer_2'>
+                            <FaFileExport size={20}></FaFileExport>
+                          </div>
+                          <span style={{marginTop:'10px'}}>Cotización</span>
+
+                      </div>
+                  :
+                  <div className='display-column'>
+
+                        <div onClick={()=>openFile(order?.quotation_file_url,'quotation_file_url')} className='fileContainer'>
+                          <FaFileExport size={20}></FaFileExport>
+                        </div>
+                        <span style={{marginTop:'10px'}}>Cotización</span>
+
+                  </div>
+                  }
+
+                  {title == 'po_file_url' ? 
+                  <div className='display-column'>
+
+                  <div className='fileContainer_2'>
+                    <FaFileExport size={20}></FaFileExport>
+                  </div>
+                  <span style={{marginTop:'10px'}}>Po</span>
+
+                  </div>
+                  :
+                  <div className='display-column'>
+
+                  <div onClick={()=>openFile(order?.po_file_url,'po_file_url')} className='fileContainer'>
+                    <FaFileExport size={20}></FaFileExport>
+                  </div>
+                  <span style={{marginTop:'10px'}}>Po</span>
+
+                  </div>
+                  }
+
+                  {title == 'ectr_file_url' ? 
+                  <div className='display-column'>
+
+                        <div  className='fileContainer_2'>
+                          <FaFileExport size={20}></FaFileExport>
+                        </div>
+                        <span  style={{marginTop:'10px'}}>Ectr</span>
+
+                    </div>
+                  :
+                  <div className='display-column'>
+
+                        <div onClick={()=>openFile(order?.ectr_file_url,'ectr_file_url')} className='fileContainer'>
+                          <FaFileExport size={20}></FaFileExport>
+                        </div>
+                        <span  style={{marginTop:'10px'}}>Ectr</span>
+
+                    </div>
+                  }
+                  
+                  
+                  
+                  
+                  
             </div>
-            <div className='inputContainer inputStyle'>
-                
-                <div className='form-floating inner-addon- left-addon-'>
-                        <input onChange={(event)=>readFile(event)} type="file" className='form-control' id='user'/>
-                        <label className='fs-5- ff-monse-regular-'>Anexo</label>
+            {file !== ''  ?  
+            <>
+              {
+                file !== null ? 
+                <div onClick={seeFile} className='ButtonElement'>
+                      <span className='ButtonText'>Ver</span>
                 </div>
-            </div>
+                :
+                <></>
+              }
+              
+              <div className='inputContainer inputStyle' style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
+              <p className='gray'>Cambia tus anexos mediante el siguiente formulario</p>
+              </div>
+              <div className='inputContainer inputStyle'>
+                  <div className='form-floating inner-addon- left-addon-'>
+                          <input onChange={(event)=>readFile(event)} type="file" className='form-control' id='user'/>
+                          <label className='fs-5- ff-monse-regular-'>Anexo</label>
+                  </div>
+              </div>
+            </>
+            :
+            <></>
+            }
+            
             <div onClick={editAnex} className='ButtonElement'>
-                    <span className='ButtonText'>Editar</span>
+                    <span className='ButtonText'>Guardar</span>
             </div>
 
         </Offcanvas.Body>

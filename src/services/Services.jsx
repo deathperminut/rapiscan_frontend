@@ -178,7 +178,7 @@ const updateOrden=async(body,token)=>{
 
 }
 
-const updateOrden_2=async(body,file,token)=>{
+const updateOrden_2=async(body,token)=>{
 
   let config = {
       headers: {
@@ -196,7 +196,33 @@ const updateOrden_2=async(body,file,token)=>{
   Body.append('country',body.country);
   Body.append('distributor',body.distributor);
   Body.append('notes',body.notes);
-  Body.append('attached_files',file);
+  Body.append('position',body.position);
+  // ARCHIVOS
+  console.log(body,body.aes_file_url instanceof File)
+  if(body.aes_file_url instanceof File){
+    Body.append('aes_file_url',body.aes_file_url);
+  }
+  if(body.eus_file_url instanceof File){
+    Body.append('eus_file_url',body.eus_file_url);
+  }
+  if(body.caf_file_url instanceof File){
+    Body.append('caf_file_url',body.caf_file_url);
+  }
+  if(body.delivery_checklist_file_url instanceof File){
+    Body.append('delivery_checklist_file_url',body.delivery_checklist_file_url);
+  }
+  if(body.quotation_file_url instanceof File){
+    Body.append('quotation_file_url',body.quotation_file_url);
+  }
+  if(body.po_file_url instanceof File){
+    Body.append('po_file_url',body.po_file_url);
+  }
+  if(body.ectr_file_url instanceof File){
+    Body.append('ectr_file_url',body.ectr_file_url);
+  }
+
+  console.log("BODY FINAL: ",Body.get('aes_file_url'));
+
 
   let path = environment.api+environment.update_order+body.id+'/update/'
   return await axios.put(path,Body,config)
