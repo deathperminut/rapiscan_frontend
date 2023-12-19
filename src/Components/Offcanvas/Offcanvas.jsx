@@ -300,10 +300,7 @@ export default function Offcanvas_task(props) {
         title: 'No tienes un archivo cargado, usa el formulario para actualizar el archivo',
       });
     }else{
-      Swal.fire({
-        icon: 'success',
-        title: 'Archivo cargado, da clic en ver para visualizar'
-      });
+      window.open(url);
     }
 
     setFile(url);
@@ -423,10 +420,10 @@ export default function Offcanvas_task(props) {
                   <span className='fileLink'>Da clic para visualizar el anexo</span>
             </div>
             <div className='inputContainer inputStyle overflow-x' style={{display:'flex',justifyContent:'center','alignItems':'center'}}>
-                  {title == 'aes_file_url' ? 
+                  {title == 'aes_file' ? 
                   <div className='display-column'>
 
-                        <div className='fileContainer_2'>
+                        <div onClick={()=>openFile(order?.aes_file,'aes_file')} className='fileContainer_2'>
                           <FaFileExport size={20}></FaFileExport>
                         </div>
                         <span style={{marginTop:'10px'}}>Aes</span>
@@ -435,7 +432,7 @@ export default function Offcanvas_task(props) {
                   :
                   <div className='display-column'>
 
-                        <div onClick={()=>openFile(order?.aes_file_url,'aes_file_url')} className='fileContainer'>
+                        <div onClick={()=>openFile(order?.aes_file,'aes_file')} className='fileContainer'>
                           <FaFileExport size={20}></FaFileExport>
                         </div>
                         <span style={{marginTop:'10px'}}>Aes</span>
@@ -443,10 +440,10 @@ export default function Offcanvas_task(props) {
                   </div>
                   }
 
-                  {title == 'eus_file_url' ? 
+                  {title == 'eus_file' ? 
                   <div className='display-column'>
 
-                        <div className='fileContainer_2'>
+                        <div onClick={()=>openFile(order?.eus_file,'eus_file')} className='fileContainer_2'>
                           <FaFileExport size={20}></FaFileExport>
                         </div>
                         <span style={{marginTop:'10px'}}>Eus</span>
@@ -455,7 +452,7 @@ export default function Offcanvas_task(props) {
                   :
                   <div className='display-column'>
 
-                        <div onClick={()=>openFile(order?.eus_file_url,'eus_file_url')} className='fileContainer'>
+                        <div onClick={()=>openFile(order?.eus_file,'eus_file')} className='fileContainer'>
                           <FaFileExport size={20}></FaFileExport>
                         </div>
                         <span style={{marginTop:'10px'}}>Eus</span>
@@ -463,10 +460,10 @@ export default function Offcanvas_task(props) {
                   </div>
                   }
 
-                  {title == 'caf_file_url' ? 
+                  {title == 'caf_file' ? 
                   <div className='display-column'>
 
-                        <div className='fileContainer_2'>
+                        <div onClick={()=>openFile(order?.caf_file,'caf_file')} className='fileContainer_2'>
                           <FaFileExport size={20}></FaFileExport>
                         </div>
                         <span style={{marginTop:'10px'}}>Caf</span>
@@ -475,7 +472,7 @@ export default function Offcanvas_task(props) {
                   :
                   <div className='display-column'>
 
-                        <div onClick={()=>openFile(order?.caf_file_url,'caf_file_url')} className='fileContainer'>
+                        <div onClick={()=>openFile(order?.caf_file,'caf_file')} className='fileContainer'>
                           <FaFileExport size={20}></FaFileExport>
                         </div>
                         <span style={{marginTop:'10px'}}>Caf</span>
@@ -488,10 +485,10 @@ export default function Offcanvas_task(props) {
             </div>
             <div className='inputContainer inputStyle overflow-x' style={{display:'flex',justifyContent:'center','alignItems':'center'}}>
 
-                {title == 'delivery_checklist_file_url' ? 
+                {title == 'delivery_checklist_file' ? 
                     <div className='display-column'>
 
-                        <div className='fileContainer_2'>
+                        <div onClick={()=>openFile(order?.delivery_checklist_file,'delivery_checklist_file')} className='fileContainer_2'>
                           <FaFileExport size={20}></FaFileExport>
                         </div>
                         <span style={{marginTop:'10px'}}>checklist</span>
@@ -500,7 +497,7 @@ export default function Offcanvas_task(props) {
                   :
                     <div className='display-column'>
 
-                        <div onClick={()=>openFile(order?.delivery_checklist_file_url,'delivery_checklist_file_url')} className='fileContainer'>
+                        <div onClick={()=>openFile(order?.delivery_checklist_file,'delivery_checklist_file')} className='fileContainer'>
                           <FaFileExport size={20}></FaFileExport>
                         </div>
                         <span style={{marginTop:'10px'}}>checklist</span>
@@ -508,10 +505,10 @@ export default function Offcanvas_task(props) {
                     </div>
                   }
 
-                  {title == 'quotation_file_url' ? 
+                  {title == 'quotation_file' ? 
                       <div className='display-column'>
 
-                          <div className='fileContainer_2'>
+                          <div onClick={()=>openFile(order?.quotation_file,'quotation_file')} className='fileContainer_2'>
                             <FaFileExport size={20}></FaFileExport>
                           </div>
                           <span style={{marginTop:'10px'}}>Cotización</span>
@@ -520,7 +517,7 @@ export default function Offcanvas_task(props) {
                   :
                   <div className='display-column'>
 
-                        <div onClick={()=>openFile(order?.quotation_file_url,'quotation_file_url')} className='fileContainer'>
+                        <div onClick={()=>openFile(order?.quotation_file,'quotation_file')} className='fileContainer'>
                           <FaFileExport size={20}></FaFileExport>
                         </div>
                         <span style={{marginTop:'10px'}}>Cotización</span>
@@ -528,10 +525,10 @@ export default function Offcanvas_task(props) {
                   </div>
                   }
 
-                  {title == 'po_file_url' ? 
+                  {title == 'po_file' ? 
                   <div className='display-column'>
 
-                  <div className='fileContainer_2'>
+                  <div onClick={()=>openFile(order?.po_file,'po_file')} className='fileContainer_2'>
                     <FaFileExport size={20}></FaFileExport>
                   </div>
                   <span style={{marginTop:'10px'}}>Po</span>
@@ -540,7 +537,7 @@ export default function Offcanvas_task(props) {
                   :
                   <div className='display-column'>
 
-                  <div onClick={()=>openFile(order?.po_file_url,'po_file_url')} className='fileContainer'>
+                  <div onClick={()=>openFile(order?.po_file,'po_file')} className='fileContainer'>
                     <FaFileExport size={20}></FaFileExport>
                   </div>
                   <span style={{marginTop:'10px'}}>Po</span>
@@ -548,10 +545,10 @@ export default function Offcanvas_task(props) {
                   </div>
                   }
 
-                  {title == 'ectr_file_url' ? 
+                  {title == 'ectr_file' ? 
                   <div className='display-column'>
 
-                        <div  className='fileContainer_2'>
+                        <div onClick={()=>openFile(order?.ectr_file,'ectr_file')}  className='fileContainer_2'>
                           <FaFileExport size={20}></FaFileExport>
                         </div>
                         <span  style={{marginTop:'10px'}}>Ectr</span>
@@ -560,7 +557,7 @@ export default function Offcanvas_task(props) {
                   :
                   <div className='display-column'>
 
-                        <div onClick={()=>openFile(order?.ectr_file_url,'ectr_file_url')} className='fileContainer'>
+                        <div onClick={()=>openFile(order?.ectr_file,'ectr_file')} className='fileContainer'>
                           <FaFileExport size={20}></FaFileExport>
                         </div>
                         <span  style={{marginTop:'10px'}}>Ectr</span>
@@ -575,14 +572,14 @@ export default function Offcanvas_task(props) {
             </div>
             {file !== ''  ?  
             <>
-              {
+              {/* {
                 file !== null ? 
                 <div onClick={seeFile} className='ButtonElement'>
                       <span className='ButtonText'>Ver</span>
                 </div>
                 :
                 <></>
-              }
+              } */}
               
               <div className='inputContainer inputStyle' style={{display:'flex',alignItems:'center',justifyContent:'center'}}>
               <p className='gray'>Cambia tus anexos mediante el siguiente formulario</p>

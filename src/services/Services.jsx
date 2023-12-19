@@ -121,13 +121,13 @@ const createOrder = async(body,token)=>{
   Body.append('notes',body.notes);
   Body.append('position',body.position);
   // los archivos tienen una logica diferente
-  Body.append('aes_file_url',body.aes_file_url);
-  Body.append('eus_file_url',body.eus_file_url);
-  Body.append('caf_file_url',body.caf_file_url);
-  Body.append('delivery_checklist_file_url',body.delivery_checklist_file_url);
-  Body.append('quotation_file_url',body.quotation_file_url);
-  Body.append('po_file_url',body.po_file_url);
-  Body.append('ectr_file_url',body.ectr_file_url);
+  Body.append('aes_file',body.aes_file_url);
+  Body.append('eus_file',body.eus_file_url);
+  Body.append('caf_file',body.caf_file_url);
+  Body.append('delivery_checklist_file',body.delivery_checklist_file_url);
+  Body.append('quotation_file',body.quotation_file_url);
+  Body.append('po_file',body.po_file_url);
+  Body.append('ectr_file',body.ectr_file_url);
   // FORMDATA
   let path = environment.api+environment.create_order
 
@@ -198,30 +198,30 @@ const updateOrden_2=async(body,token)=>{
   Body.append('notes',body.notes);
   Body.append('position',body.position);
   // ARCHIVOS
-  console.log(body,body.aes_file_url instanceof File)
-  if(body.aes_file_url instanceof File){
-    Body.append('aes_file_url',body.aes_file_url);
+  if(body.aes_file instanceof File){
+    console.log("ENTRAMOS")
+    Body.append('aes_file',body.aes_file);
   }
-  if(body.eus_file_url instanceof File){
-    Body.append('eus_file_url',body.eus_file_url);
+  if(body.eus_file instanceof File){
+    Body.append('eus_file',body.eus_file);
   }
-  if(body.caf_file_url instanceof File){
-    Body.append('caf_file_url',body.caf_file_url);
+  if(body.caf_file instanceof File){
+    Body.append('caf_file',body.caf_file);
   }
-  if(body.delivery_checklist_file_url instanceof File){
-    Body.append('delivery_checklist_file_url',body.delivery_checklist_file_url);
+  if(body.delivery_checklist_file instanceof File){
+    Body.append('delivery_checklist_file',body.delivery_checklist_file);
   }
-  if(body.quotation_file_url instanceof File){
-    Body.append('quotation_file_url',body.quotation_file_url);
+  if(body.quotation_file instanceof File){
+    Body.append('quotation_file',body.quotation_file);
   }
-  if(body.po_file_url instanceof File){
-    Body.append('po_file_url',body.po_file_url);
+  if(body.po_file instanceof File){
+    Body.append('po_file',body.po_file);
   }
-  if(body.ectr_file_url instanceof File){
-    Body.append('ectr_file_url',body.ectr_file_url);
+  if(body.ectr_file instanceof File){
+    Body.append('ectr_file',body.ectr_file);
   }
 
-  console.log("BODY FINAL: ",Body.get('aes_file_url'));
+  console.log("BODY FINAL: ",Body.get('aes_file'));
 
 
   let path = environment.api+environment.update_order+body.id+'/update/'

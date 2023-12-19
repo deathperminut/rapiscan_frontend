@@ -95,7 +95,7 @@ export default function Task(props) {
       
       Swal.fire({
         icon: 'info',
-        title: 'Todos los campos son obligatorios'
+        title: 'Los campos de número de cotización, código po, cliente final , país y distribuidor son obligatorios.'
       });
       
     }
